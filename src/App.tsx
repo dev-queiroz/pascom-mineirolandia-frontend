@@ -1,6 +1,6 @@
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard'; // crie um placeholder
+import Dashboard from './pages/Dashboard';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-                <Route path="/" element={<Navigate to="/login" />} />
+                <Route path="/" element={<Navigate to="/login" replace />} />
             </Routes>
         </BrowserRouter>
     );
