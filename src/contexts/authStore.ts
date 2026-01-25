@@ -1,39 +1,21 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import api from '../api';
-
-interface User {
-    id: number;
-    username: string;
-    funcao: string;
-    escalacao?: number;
-    situacao: string;
-    setor?: string;
-    acompanhante: string;
-}
-
-interface AuthState {
-    user: User | null;
-    token: string | null;
-    isAuthenticated: boolean;
-    login: (credentials: { username: string; password: string }) => Promise<void>;
-    logout: () => void;
-    loadUser: () => Promise<void>;
-}
+import { endpoints } from '../api';
+import type {AuthState, User} from '../types';
 
 export const useAuthStore = create<AuthState>()(
     persist(
-        (set) => ({
+        (set, get) => ({
             user: null,
             token: null,
             isAuthenticated: false,
 
             login: async (credentials) => {
-                const res = await api.post('/auth/login', credentials);
+                const res = await endpoints.login(credentials);
                 const { access_token } = res.data;
                 localStorage.setItem('token', access_token);
                 set({ token: access_token, isAuthenticated: true });
-                await useAuthStore.getState().loadUser();
+                await get().loadUser();
             },
 
             logout: () => {
@@ -43,8 +25,8 @@ export const useAuthStore = create<AuthState>()(
 
             loadUser: async () => {
                 try {
-                    const res = await api.get('/auth/me');
-                    set({ user: res.data, isAuthenticated: true });
+                    const res = await endpoints.getMe();
+                    set({ user: res.data as User, isAuthenticated: true });
                 } catch {
                     set({ user: null, isAuthenticated: false });
                 }
