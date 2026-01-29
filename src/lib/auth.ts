@@ -2,15 +2,14 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { API_BASE_URL } from './constants';
 import type { User } from '@/types';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://pascom-backend.onrender.com';
 
 export async function loginAction(formData: FormData) {
     const username = formData.get('username') as string;
     const password = formData.get('password') as string;
 
-    const res = await fetch(`${API_URL}/auth/login`, {
+    const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -22,8 +21,8 @@ export async function loginAction(formData: FormData) {
     }
 
     const { access_token } = await res.json();
-
     const cookieStore = await cookies();
+
     cookieStore.set('access_token', access_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -47,10 +46,8 @@ export async function getCurrentUser(): Promise<User | null> {
 
     if (!token) return null;
 
-    const res = await fetch(`${API_URL}/auth/me`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+    const res = await fetch(`${API_BASE_URL}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
         cache: 'no-store',
     });
 
@@ -64,8 +61,6 @@ export async function getCurrentUser(): Promise<User | null> {
 
 export async function requireAuth(): Promise<User> {
     const user = await getCurrentUser();
-    if (!user) {
-        redirect('/login');
-    }
+    if (!user) redirect('/login');
     return user;
 }

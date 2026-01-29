@@ -8,11 +8,15 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatDate(isoDate: string | Date): string {
   if (!isoDate) return '';
-  const date = new Date(isoDate);
+  const date = typeof isoDate === 'string' && !isoDate.includes('T')
+      ? new Date(`${isoDate}T00:00:00Z`)
+      : new Date(isoDate);
+
   return date.toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
+    timeZone: 'UTC'
   });
 }
 
@@ -28,10 +32,10 @@ export function formatCurrency(value: number | string): string {
   });
 }
 
-export function decodeToken<T>(token: string): T {
+export function decodeToken<T>(token: string): T | null {
   try {
-    return jwtDecode(token);
+    return jwtDecode<T>(token);
   } catch {
-    return {} as T;
+    return null;
   }
 }
