@@ -54,6 +54,7 @@ export async function apiFetch<T>(
         return await res.json() as Promise<T>;
 
     } catch {
+        clearTimeout(timeoutId);
         if (error.name === 'AbortError') {
             throw new Error('Tempo de requisição esgotado. Tente novamente.');
         }
