@@ -1,50 +1,43 @@
-// src/middleware/auth.ts (ajuste final)
 import { NextRequest, NextResponse } from 'next/server';
+import { API_BASE_URL } from '@/lib/constants';
 
-const protectedRoutes = [
-    '/dashboard',
-    '/events',
-    '/financial',
-    '/admin', // tudo que começa com /admin
-];
+const protectedRoutes = ['/dashboard', '/events', '/financial', '/admin'];
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
+    const token = request.cookies.get('access_token')?.value;
 
-    // Libera rotas públicas
-    if (pathname === '/login' || pathname === '/') {
+    if (process.env.NODE_ENV === 'development') {
+        console.log(`Middleware: ${pathname} - Token: ${token ? 'present' : 'missing'}`);
+    }
+
+    if (pathname === '/login' || pathname === '/' || pathname.startsWith('/_next')) {
+        if (token && pathname === '/login') {
+            return NextResponse.redirect(new URL('/dashboard', request.url));
+        }
         return NextResponse.next();
     }
 
-    // Verifica token
-    const token = request.cookies.get('access_token')?.value;
-
-    // Se rota protegida e sem token → redirect
-    if (protectedRoutes.some(route => pathname.startsWith(route)) && !token) {
+    const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+    if (isProtectedRoute && !token) {
         const loginUrl = new URL('/login', request.url);
         loginUrl.searchParams.set('redirect', pathname);
         return NextResponse.redirect(loginUrl);
     }
 
-    // (Opcional) Validação real do token
     if (token) {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+            const res = await fetch(`${API_BASE_URL}/auth/me`, {
                 headers: { Authorization: `Bearer ${token}` },
                 cache: 'no-store',
+                method: 'GET',
             });
 
             if (!res.ok) {
-                const response = NextResponse.redirect(new URL('/login', request.url));
-                response.cookies.delete('access_token');
-                return response;
+                throw new Error('Token inválido');
             }
 
-            // Token válido → continua + adiciona header para páginas
-            const requestHeaders = new Headers(request.headers);
-            requestHeaders.set('x-user-role', (await res.json()).funcao || 'user');
-
-            return NextResponse.next({ request: { headers: requestHeaders } });
+            return NextResponse.next();
         } catch {
             const response = NextResponse.redirect(new URL('/login', request.url));
             response.cookies.delete('access_token');
@@ -61,5 +54,6 @@ export const config = {
         '/events/:path*',
         '/financial/:path*',
         '/admin/:path*',
+        '/login'
     ],
 };
