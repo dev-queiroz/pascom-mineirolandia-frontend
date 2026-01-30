@@ -13,6 +13,9 @@ export function useEvents(month?: string) {
         queryKey: eventKeys.list(month),
         queryFn: () => eventService.listEvents(month),
         staleTime: 1000 * 60 * 5, // 5 minutos
+        gcTime: 1000 * 60 * 10,   // 10 minutos
+        retry: 2,
+        refetchOnWindowFocus: false,
     });
 }
 
