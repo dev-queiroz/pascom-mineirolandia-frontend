@@ -14,26 +14,22 @@ export function useAuth() {
 
     const loginMutation = useMutation({
         mutationFn: async (formData: FormData) => {
-            await loginAction(formData);
+            return await loginAction(formData);
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: authKeys.currentUser() });
-        },
-        onError: (err) => {
-            console.error('Erro no login:', err);
+        onSuccess: async () => {
+            await queryClient.resetQueries({ queryKey: authKeys.all });
+
+            router.push('/dashboard');
+            router.refresh();
         },
     });
 
     const logoutMutation = useMutation({
-        mutationFn: async () => {
-            await logoutAction();
-        },
+        mutationFn: logoutAction,
         onSuccess: () => {
             queryClient.removeQueries({ queryKey: authKeys.all });
+            router.push('/login');
             router.refresh();
-        },
-        onError: (err) => {
-            console.error('Erro no logout:', err);
         },
     });
 

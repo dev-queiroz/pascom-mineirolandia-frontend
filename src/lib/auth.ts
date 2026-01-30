@@ -16,8 +16,8 @@ export async function loginAction(formData: FormData) {
     });
 
     if (!res.ok) {
-        const error = await res.json();
-        redirect(`/login?error=${encodeURIComponent(error.message || 'Credenciais inválidas')}`);
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Credenciais inválidas');
     }
 
     const { access_token } = await res.json();
@@ -28,10 +28,11 @@ export async function loginAction(formData: FormData) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 7 dias
+        maxAge: 60 * 60 * 24 * 7,
     });
 
-    redirect('/dashboard');
+    // NÃO FAÇA redirect aqui — deixe o client fazer
+    return { success: true, message: 'Login realizado com sucesso' };
 }
 
 export async function logoutAction() {

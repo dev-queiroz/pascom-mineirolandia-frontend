@@ -1,59 +1,28 @@
+// middleware.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { API_BASE_URL } from '@/lib/constants';
 
-const protectedRoutes = ['/dashboard', '/events', '/financial', '/admin'];
-
-export async function middleware(request: NextRequest) {
-    const { pathname } = request.nextUrl;
+export function middleware(request: NextRequest) {
     const token = request.cookies.get('access_token')?.value;
+    const { pathname } = request.nextUrl;
 
-    if (process.env.NODE_ENV === 'development') {
-        console.log(`Middleware: ${pathname} - Token: ${token ? 'present' : 'missing'}`);
+    // Se estiver no login e já tiver token, vai direto pro dashboard
+    if (pathname === '/login' && token) {
+        return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
-    if (pathname === '/login' || pathname === '/' || pathname.startsWith('/_next')) {
-        if (token && pathname === '/login') {
-            return NextResponse.redirect(new URL('/dashboard', request.url));
-        }
-        return NextResponse.next();
-    }
+    // Se tentar acessar rotas protegidas sem token, vai pro login
+    const isProtectedRoute = ['/dashboard', '/events', '/financial', '/admin'].some(
+        route => pathname.startsWith(route)
+    );
 
-    const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
     if (isProtectedRoute && !token) {
-        const loginUrl = new URL('/login', request.url);
-        loginUrl.searchParams.set('redirect', pathname);
-        return NextResponse.redirect(loginUrl);
-    }
-
-    if (token) {
-        try {
-            const res = await fetch(`${API_BASE_URL}/auth/me`, {
-                headers: { Authorization: `Bearer ${token}` },
-                cache: 'no-store',
-                method: 'GET',
-            });
-
-            if (!res.ok) {
-                throw new Error('Token inválido');
-            }
-
-            return NextResponse.next();
-        } catch {
-            const response = NextResponse.redirect(new URL('/login', request.url));
-            response.cookies.delete('access_token');
-            return response;
-        }
+        return NextResponse.redirect(new URL('/login', request.url));
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: [
-        '/dashboard/:path*',
-        '/events/:path*',
-        '/financial/:path*',
-        '/admin/:path*',
-        '/login'
-    ],
+    // Protege tudo exceto arquivos estáticos e rotas de API internas
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

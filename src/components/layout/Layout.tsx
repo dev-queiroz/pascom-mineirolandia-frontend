@@ -1,21 +1,24 @@
 'use client';
 
+import { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { ReactNode } from 'react';
 
-interface LayoutProps {
-    children: ReactNode;
-}
+export default function Layout({ children }: { children: ReactNode }) {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-export default function Layout({ children }: LayoutProps) {
     return (
-        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
-            <Sidebar />
-            <div className="flex-1 flex flex-col">
-                <Header />
-                <main className="flex-1 p-8 overflow-y-auto">
-                    <div className="max-w-7xl mx-auto">{children}</div>
+        <div className="flex h-screen w-full bg-[#050505] overflow-hidden">
+            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
+            <div className="flex-1 flex flex-col h-full overflow-hidden">
+                <Header onOpenMenu={() => setIsSidebarOpen(true)} />
+
+                <main className="flex-1 overflow-y-auto bg-[#050505]">
+                    <div className="p-4 md:p-10 max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-2 duration-700">
+                        {children}
+                    </div>
                 </main>
             </div>
         </div>

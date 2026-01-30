@@ -1,31 +1,25 @@
 import { API_BASE_URL } from './constants';
 import {error} from "next/dist/build/output/log";
 
+// lib/api.ts
 export async function apiFetch<T>(
     endpoint: string,
     options: RequestInit & { public?: boolean } = {}
 ): Promise<T> {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 segundos
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    let token: string | undefined;
+    const headers = new Headers(options.headers || {});
 
     if (typeof window === 'undefined') {
         const { cookies } = await import('next/headers');
         const cookieStore = await cookies();
-        token = cookieStore.get('access_token')?.value;
+        const token = cookieStore.get('access_token')?.value;
+        if (token) headers.set('Authorization', `Bearer ${token}`);
     }
-    else if (!options.public) {
-        token = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('access_token='))
-            ?.split('=')[1];
-    }
+    // No cliente, não injetamos o token manualmente se for httpOnly.
+    // O navegador enviará o cookie automaticamente se adicionarmos 'credentials'.
 
-    const headers = new Headers(options.headers || {});
-    if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-    }
     if (options.body && !(options.body instanceof FormData)) {
         headers.set('Content-Type', 'application/json');
     }
@@ -35,29 +29,23 @@ export async function apiFetch<T>(
             ...options,
             signal: controller.signal,
             headers,
+            credentials: options.public ? 'omit' : 'include', // ESSENCIAL para o NestJS receber o cookie
         });
 
         clearTimeout(timeoutId);
 
         if (res.status === 401 && !options.public) {
-            if (typeof window !== 'undefined') {
-                window.location.href = '/login';
-            }
-            throw new Error('Sessão expirada. Faça login novamente.');
+            throw new Error('UNAUTHORIZED');
         }
 
         if (!res.ok) {
-            const error = await res.json().catch(() => ({}));
-            throw new Error(error.message || `Erro ${res.status} na requisição`);
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.message || `Erro ${res.status}`);
         }
 
-        return await res.json() as Promise<T>;
-
+        return await res.json();
     } catch {
         clearTimeout(timeoutId);
-        if (error.name === 'AbortError') {
-            throw new Error('Tempo de requisição esgotado. Tente novamente.');
-        }
-        throw error;
+        throw new Error(`Unable to retrieve ${endpoint}`);
     }
 }

@@ -11,9 +11,11 @@ export function useCurrentUser() {
     return useQuery<User, Error>({
         queryKey: authKeys.currentUser(),
         queryFn: () => apiFetch<User>('/auth/me'),
-        staleTime: 1000 * 60 * 5, // 5 minutos
-        gcTime: 1000 * 60 * 10,   // 10 minutos
-        retry: 1,
-        refetchOnWindowFocus: false,
+        staleTime: 1000 * 60 * 5,
+        retry: (failureCount, error: Error) => {
+            // Se for erro de autorização, não tenta de novo.
+            if (error.message === 'UNAUTHORIZED') return false;
+            return failureCount < 2;
+        },
     });
 }
