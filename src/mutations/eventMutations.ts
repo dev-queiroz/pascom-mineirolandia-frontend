@@ -1,24 +1,33 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { eventService } from '@/services/eventService';
 import { eventKeys } from '@/queries/eventQueries';
 
-export function useInvalidateEvents() {
-    const queryClient = useQueryClient();
-
-    return () => {
-        void queryClient.invalidateQueries({ queryKey: eventKeys.all });
-    };
-}
-
-export function useUpdateSlotPlaceholder() {
+export function useAssignSlot() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async ({ id, data }: { id: number; data: Record<string, unknown> }) => {
-            console.log('Atualizando slot:', id, data);
-            return Promise.resolve();
+        mutationFn: ({ eventId, slotOrder }: { eventId: number; slotOrder: number }) =>
+            eventService.assignSlot(eventId, slotOrder),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: eventKeys.all });
         },
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: eventKeys.all });
+        onError: (error) => {
+            console.error('Erro ao servir vaga:', error);
+        },
+    });
+}
+
+export function useRemoveSlot() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ eventId, slotOrder, justification }: { eventId: number; slotOrder: number; justification: string }) =>
+            eventService.removeSlot(eventId, slotOrder, justification),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: eventKeys.all });
+        },
+        onError: (error) => {
+            console.error('Erro ao desistir da vaga:', error);
         },
     });
 }
