@@ -7,7 +7,7 @@ export const dashboardKeys = {
     stats: (month?: string) => [...dashboardKeys.all, 'stats', month] as const,
 };
 
-export function useDashboardStatsService(month?: string) {
+export function useDashboardStats(month?: string) {
     return useQuery<DashboardData, Error>({
         queryKey: dashboardKeys.stats(month),
         queryFn: () => dashboardService.getStats(month),
