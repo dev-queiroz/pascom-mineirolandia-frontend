@@ -7,7 +7,7 @@ export function useCreateContribution() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (formData: FormData) => financialService.createContribution(formData),
+        mutationFn: financialService.createContribution,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: financialKeys.all });
             queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
@@ -19,7 +19,7 @@ export function useConfirmContribution() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (id: number) => financialService.confirmContribution(id),
+        mutationFn: financialService.confirmContribution,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: financialKeys.pendings() });
             queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
@@ -31,7 +31,7 @@ export function useDeleteContribution() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (id: number) => financialService.deleteContribution(id),
+        mutationFn: financialService.deleteContribution,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: financialKeys.all });
         },
