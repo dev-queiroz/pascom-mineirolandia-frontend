@@ -4,13 +4,20 @@ import { useCurrentUser } from '@/queries/authQueries';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { loginAction, logoutAction } from '@/lib/auth';
 import { authKeys } from '@/queries/authQueries';
-import { useRouter } from 'next/navigation';
+import {redirect, usePathname, useRouter} from 'next/navigation';
 
 export function useAuth() {
     const router = useRouter();
     const queryClient = useQueryClient();
+    const path = usePathname();
 
     const { data: user, isLoading, error } = useCurrentUser();
+
+    if (!isLoading && !user) {
+        if (path.startsWith('/events') || path.startsWith('/dashboard') || path.startsWith('/financial')) {
+            redirect('/login');
+        }
+    }
 
     const loginMutation = useMutation({
         mutationFn: async (formData: FormData) => {

@@ -1,5 +1,6 @@
 import { apiFetch } from '@/lib/api';
-import type { Event } from '@/types';
+import type {CreateEventDTO, Event, UpdateEventDTO} from '@/types';
+import { API_BASE_URL } from "@/lib/constants";
 
 export const eventService = {
     listEvents: async (month?: string): Promise<Event[]> => {
@@ -12,18 +13,12 @@ export const eventService = {
     },
 
     downloadScalePdf: async (month: string): Promise<void> => {
-        const token = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('access_token='))
-            ?.split('=')[1];
-
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pdf/scale?month=${month}`, {
+        const res = await fetch(`${API_BASE_URL}/pdf/scale?month=${month}`, {
             method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+            credentials: 'include',
         });
 
+        if (res.status === 401) throw new Error('Não autorizado: Acesso apenas para Admins');
         if (!res.ok) throw new Error('Erro ao gerar PDF da escala');
 
         const blob = await res.blob();
@@ -48,6 +43,26 @@ export const eventService = {
         return apiFetch(`/events/${eventId}/remove`, {
             method: 'POST',
             body: JSON.stringify({ slotOrder, justification }),
+        });
+    },
+
+    createEvent: async (data: CreateEventDTO): Promise<Event> => {
+        return apiFetch<Event>('/events', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    },
+
+    updateEvent: async (id: number, data: UpdateEventDTO): Promise<Event> => {
+        return apiFetch<Event>(`/events/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(data),
+        });
+    },
+
+    deleteEvent: async (id: number): Promise<void> => {
+        return apiFetch(`/events/${id}`, {
+            method: 'DELETE',
         });
     },
 };

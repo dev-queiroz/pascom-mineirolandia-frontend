@@ -17,3 +17,9 @@ export interface Contribution {
 export interface PendingContribution extends Contribution {
     user: Pick<User, 'username'>;
 }
+
+export interface FinancialSummary {
+    entradas: number;
+    saidas: number;
+    saldo: number;
+}

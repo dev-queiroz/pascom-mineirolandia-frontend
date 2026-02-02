@@ -1,5 +1,5 @@
 import { apiFetch } from '@/lib/api';
-import { Contribution, PendingContribution } from '@/types';
+import {Contribution, FinancialSummary, PendingContribution} from '@/types';
 
 export const financialService = {
     async createContribution(data: FormData) {
@@ -11,6 +11,11 @@ export const financialService = {
 
     async listPendings() {
         return apiFetch<PendingContribution[]>('/financial/pendings');
+    },
+
+    async getSummary(month?: string) {
+        const query = month ? `?month=${month}` : '';
+        return apiFetch<FinancialSummary>(`/financial/summary${query}`);
     },
 
     async confirmContribution(id: number) {

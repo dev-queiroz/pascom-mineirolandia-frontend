@@ -1,5 +1,4 @@
 import { API_BASE_URL } from './constants';
-import {error} from "next/dist/build/output/log";
 
 // lib/api.ts
 export async function apiFetch<T>(
@@ -17,8 +16,6 @@ export async function apiFetch<T>(
         const token = cookieStore.get('access_token')?.value;
         if (token) headers.set('Authorization', `Bearer ${token}`);
     }
-    // No cliente, não injetamos o token manualmente se for httpOnly.
-    // O navegador enviará o cookie automaticamente se adicionarmos 'credentials'.
 
     if (options.body && !(options.body instanceof FormData)) {
         headers.set('Content-Type', 'application/json');
@@ -27,15 +24,12 @@ export async function apiFetch<T>(
     try {
         const res = await fetch(`${API_BASE_URL}${endpoint}`, {
             ...options,
-            signal: controller.signal,
             headers,
-            credentials: options.public ? 'omit' : 'include', // ESSENCIAL para o NestJS receber o cookie
+            credentials: options.public ? 'omit' : 'include',
         });
 
-        clearTimeout(timeoutId);
-
         if (res.status === 401 && !options.public) {
-            throw new Error('UNAUTHORIZED');
+            throw new Error('Sessão expirada. Faça login novamente.');
         }
 
         if (!res.ok) {
@@ -44,8 +38,15 @@ export async function apiFetch<T>(
         }
 
         return await res.json();
-    } catch {
+    } catch (error: unknown) {
         clearTimeout(timeoutId);
-        throw new Error(`Unable to retrieve ${endpoint}`);
+
+        if (error instanceof Error) {
+            if (error.message !== 'Failed to fetch' && error.name !== 'AbortError') {
+                throw error;
+            }
+        }
+
+        throw new Error(`Erro de conexão ao acessar ${endpoint}`);
     }
 }

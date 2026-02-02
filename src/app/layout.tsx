@@ -15,7 +15,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
             {children}
         </Providers>
-        <Toaster position="top-right" />
+        <Toaster
+            position="top-center"
+            richColors
+            toastOptions={{
+                className:
+                    'bg-zinc-900 text-white border border-white/10 shadow-xl opacity-100',
+                duration: 1000,
+            }}
+        />
         </body>
         </html>
     );

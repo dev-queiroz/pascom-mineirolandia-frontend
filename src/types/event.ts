@@ -19,3 +19,14 @@ export interface Event {
     createdAt: string;
     slots: Slot[];
 }
+
+export interface CreateEventDTO {
+    description: string;
+    day: string;
+    month: string;
+    time: string;
+    location: string;
+    slots: { function: string }[];
+}
+
+export type UpdateEventDTO = Partial<CreateEventDTO>;
