@@ -13,6 +13,7 @@ export async function loginAction(formData: FormData) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
+        credentials: 'include',           // ← OBRIGATÓRIO para receber/enviar cookie cross-origin
     });
 
     if (!res.ok) {
@@ -20,18 +21,7 @@ export async function loginAction(formData: FormData) {
         throw new Error(errorData.message || 'Credenciais inválidas');
     }
 
-    const { access_token } = await res.json();
-    const cookieStore = await cookies();
-
-    cookieStore.set('access_token', access_token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        path: '/',
-        maxAge: 60 * 60 * 24 * 7,
-    });
-
-    // NÃO FAÇA redirect aqui — deixe o client fazer
+    // NÃO precisa mais setar cookie manualmente aqui
     return { success: true, message: 'Login realizado com sucesso' };
 }
 
