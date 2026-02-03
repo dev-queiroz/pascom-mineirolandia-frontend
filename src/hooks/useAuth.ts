@@ -6,6 +6,7 @@ import { loginAction, logoutAction } from '@/lib/auth';
 import { authKeys } from '@/queries/authQueries';
 import {redirect, usePathname, useRouter} from 'next/navigation';
 import {AuthResponse} from "@/types";
+import {toast} from "sonner";
 
 export function useAuth() {
     const router = useRouter();
@@ -38,8 +39,9 @@ export function useAuth() {
         onSuccess: () => {
             localStorage.removeItem('access_token');
             queryClient.removeQueries({ queryKey: authKeys.all });
-            router.push('/login?success=Logout realizado com sucesso');
+            router.push('/login');
             router.refresh();
+            toast.success('Logout realizado com sucesso!');
         },
     });
 
