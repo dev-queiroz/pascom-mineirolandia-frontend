@@ -10,18 +10,19 @@ export async function apiFetch<T>(
 
     const headers = new Headers(options.headers || {});
 
-    if (typeof window === 'undefined') {
-        const { cookies } = await import('next/headers');
-        const token = (await cookies()).get('access_token')?.value;
+    let token: string | undefined;
+
+    try {
+        if (typeof window === 'undefined') {
+            // Server-side: Server Components, Server Actions, getServerSideProps, etc.
+            const { cookies } = await import('next/headers');
+            token = (await cookies()).get('access_token')?.value;
+        }
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
-    } else {
-        // Client-side: se precisar (raramente), use localStorage ou outro
-        const token = localStorage.getItem('access_token');
-        if (token) {
-            headers.set('Authorization', `Bearer ${token}`);
-        }
+    } catch (err) {
+        console.error('Erro ao ler cookie no apiFetch:', err);
     }
 
     if (options.body && !(options.body instanceof FormData)) {
@@ -32,10 +33,15 @@ export async function apiFetch<T>(
         const res = await fetch(`${API_BASE_URL}${endpoint}`, {
             ...options,
             headers,
-            credentials: 'omit', // não precisa include, pois usamos Bearer
+            credentials: 'omit', // correto para Bearer
         });
 
         if (res.status === 401 && !options.public) {
+            // Opcional: limpar cookie se 401
+            if (typeof window === 'undefined') {
+                const { cookies } = await import('next/headers');
+                (await cookies()).delete('access_token');
+            }
             throw new Error('Sessão expirada. Faça login novamente.');
         }
 
@@ -47,13 +53,11 @@ export async function apiFetch<T>(
         return await res.json();
     } catch (error: unknown) {
         clearTimeout(timeoutId);
-
         if (error instanceof Error) {
             if (error.message !== 'Failed to fetch' && error.name !== 'AbortError') {
                 throw error;
             }
         }
-
         throw new Error(`Erro de conexão ao acessar ${endpoint}`);
     }
 }

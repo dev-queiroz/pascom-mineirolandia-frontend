@@ -1,9 +1,10 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { API_BASE_URL } from './constants';
-import type { User } from '@/types';
+import {cookies} from 'next/headers';
+import {redirect} from 'next/navigation';
+import {API_BASE_URL} from './constants';
+import type {User} from '@/types';
+import {apiFetch} from "@/lib/api";
 
 export async function loginAction(formData: FormData) {
     const username = formData.get('username') as string;
@@ -47,17 +48,13 @@ export async function getCurrentUser(): Promise<User | null> {
 
     if (!token) return null;
 
-    const res = await fetch(`${API_BASE_URL}/auth/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-        cache: 'no-store',
-    });
-
-    if (!res.ok) {
+    try {
+        return await apiFetch<User>('/auth/me', {public: false});
+    } catch (err) {
+        console.error('Erro em getCurrentUser:', err);
         cookieStore.delete('access_token');
         return null;
     }
-
-    return res.json();
 }
 
 export async function requireAuth(): Promise<User> {
