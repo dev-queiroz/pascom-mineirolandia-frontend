@@ -14,7 +14,7 @@ export async function loginAction(formData: FormData) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
-        // credentials: 'include' não é mais necessário aqui
+        credentials: 'include'
     });
 
     if (!res.ok) {
@@ -22,29 +22,25 @@ export async function loginAction(formData: FormData) {
         throw new Error(errorData.message || 'Credenciais inválidas');
     }
 
-    const { access_token } = await res.json();
+    const data = await res.json();
 
-    // Crie o cookie httpOnly no domínio do frontend (Vercel)
-    (await cookies()).set('access_token', access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // true em prod
-        sameSite: 'lax', // ou 'strict' – 'none' só se precisar cross-site real
-        path: '/',
-        maxAge: 7 * 24 * 60 * 60, // 7 dias
-    });
-
-    if (typeof window !== 'undefined') {
-        localStorage.setItem('access_token', access_token);
+    if (data.access_token) {
+        const cookieStore = await cookies();
+        cookieStore.set('access_token', data.access_token, {
+            httpOnly: true, // Segurança
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/',
+        });
     }
 
-    return { success: true, message: 'Login realizado com sucesso' };
+    return data;
 }
 
 export async function logoutAction() {
     const cookieStore = await cookies();
     cookieStore.delete('access_token');
-    localStorage.removeItem('access_token');
-    redirect('/login?success=Logout realizado com sucesso');
+    return { success: true };
 }
 
 export async function getCurrentUser(): Promise<User | null> {

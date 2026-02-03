@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { loginAction, logoutAction } from '@/lib/auth';
 import { authKeys } from '@/queries/authQueries';
 import {redirect, usePathname, useRouter} from 'next/navigation';
+import {AuthResponse} from "@/types";
 
 export function useAuth() {
     const router = useRouter();
@@ -23,19 +24,21 @@ export function useAuth() {
         mutationFn: async (formData: FormData) => {
             return await loginAction(formData);
         },
-        onSuccess: async () => {
-            await queryClient.resetQueries({ queryKey: authKeys.all });
-
+        onSuccess: (data: AuthResponse) => {
+            if (data.access_token) {
+                localStorage.setItem('access_token', data.access_token);
+            }
+            queryClient.invalidateQueries({ queryKey: authKeys.all });
             router.push('/dashboard');
-            router.refresh();
         },
     });
 
     const logoutMutation = useMutation({
         mutationFn: logoutAction,
         onSuccess: () => {
+            localStorage.removeItem('access_token');
             queryClient.removeQueries({ queryKey: authKeys.all });
-            router.push('/login');
+            router.push('/login?success=Logout realizado com sucesso');
             router.refresh();
         },
     });

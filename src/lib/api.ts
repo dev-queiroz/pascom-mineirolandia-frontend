@@ -39,7 +39,7 @@ export async function apiFetch<T>(
         const res = await fetch(`${API_BASE_URL}${endpoint}`, {
             ...options,
             headers,
-            credentials: 'omit', // correto para Bearer
+            credentials: 'include'
         });
 
         if (res.status === 401 && !options.public) {
