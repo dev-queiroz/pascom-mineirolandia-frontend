@@ -13,9 +13,13 @@ export const eventService = {
     },
 
     downloadScalePdf: async (month: string): Promise<void> => {
+        const token = localStorage.getItem('access_token');
+
         const res = await fetch(`${API_BASE_URL}/pdf/scale?month=${month}`, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
 
         if (res.status === 401) throw new Error('Não autorizado: Acesso apenas para Admins');
