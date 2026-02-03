@@ -33,12 +33,17 @@ export async function loginAction(formData: FormData) {
         maxAge: 7 * 24 * 60 * 60, // 7 dias
     });
 
+    if (typeof window !== 'undefined') {
+        localStorage.setItem('access_token', access_token);
+    }
+
     return { success: true, message: 'Login realizado com sucesso' };
 }
 
 export async function logoutAction() {
     const cookieStore = await cookies();
     cookieStore.delete('access_token');
+    localStorage.removeItem('access_token');
     redirect('/login?success=Logout realizado com sucesso');
 }
 

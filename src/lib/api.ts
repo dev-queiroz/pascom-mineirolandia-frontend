@@ -17,10 +17,16 @@ export async function apiFetch<T>(
             // Server-side: Server Components, Server Actions, getServerSideProps, etc.
             const { cookies } = await import('next/headers');
             token = (await cookies()).get('access_token')?.value;
+            headers.set('Authorization', `Bearer ${token}`);
         }
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
+        } else {
+        token = localStorage.getItem('access_token') ?? undefined;
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`);
         }
+    }
     } catch (err) {
         console.error('Erro ao ler cookie no apiFetch:', err);
     }
