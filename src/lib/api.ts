@@ -12,9 +12,16 @@ export async function apiFetch<T>(
 
     if (typeof window === 'undefined') {
         const { cookies } = await import('next/headers');
-        const cookieStore = await cookies();
-        const token = cookieStore.get('access_token')?.value;
-        if (token) headers.set('Authorization', `Bearer ${token}`);
+        const token = (await cookies()).get('access_token')?.value;
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`);
+        }
+    } else {
+        // Client-side: se precisar (raramente), use localStorage ou outro
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`);
+        }
     }
 
     if (options.body && !(options.body instanceof FormData)) {
@@ -25,7 +32,7 @@ export async function apiFetch<T>(
         const res = await fetch(`${API_BASE_URL}${endpoint}`, {
             ...options,
             headers,
-            credentials: options.public ? 'omit' : 'include',
+            credentials: 'omit', // não precisa include, pois usamos Bearer
         });
 
         if (res.status === 401 && !options.public) {

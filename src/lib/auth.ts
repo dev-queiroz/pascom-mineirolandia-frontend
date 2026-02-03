@@ -13,7 +13,7 @@ export async function loginAction(formData: FormData) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
-        credentials: 'include',           // ← OBRIGATÓRIO para receber/enviar cookie cross-origin
+        // credentials: 'include' não é mais necessário aqui
     });
 
     if (!res.ok) {
@@ -21,7 +21,17 @@ export async function loginAction(formData: FormData) {
         throw new Error(errorData.message || 'Credenciais inválidas');
     }
 
-    // NÃO precisa mais setar cookie manualmente aqui
+    const { access_token } = await res.json();
+
+    // Crie o cookie httpOnly no domínio do frontend (Vercel)
+    (await cookies()).set('access_token', access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // true em prod
+        sameSite: 'lax', // ou 'strict' – 'none' só se precisar cross-site real
+        path: '/',
+        maxAge: 7 * 24 * 60 * 60, // 7 dias
+    });
+
     return { success: true, message: 'Login realizado com sucesso' };
 }
 
