@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEventsHook } from '@/hooks/useEvents';
 import { useAdminEventMutations } from '@/mutations/eventMutations';
 import { extrasService } from '@/services/extrasService';
@@ -121,14 +121,14 @@ export default function AdminEventsPage() {
                         </span>
                     </div>
                     <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter italic">
-                        Gestão de <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">Escalas</span>
+                        Gestão de <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-purple-500">Escalas</span>
                     </h1>
                 </div>
 
                 {!isAdding && (
                     <Button
                         onClick={() => setIsAdding(true)}
-                        className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-2xl px-8 h-14 font-bold shadow-xl shadow-indigo-500/20 transition-all gap-2"
+                        className="bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-2xl px-8 h-14 font-bold shadow-xl shadow-indigo-500/20 transition-all gap-2"
                     >
                         <Plus className="w-5 h-5" />
                         Novo Evento
@@ -216,7 +216,7 @@ export default function AdminEventsPage() {
                                 </button>
                             </div>
 
-                            <div className="space-y-3 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
+                            <div className="space-y-3 max-h-62.5 overflow-y-auto pr-2 custom-scrollbar">
                                 {newSlots.map((slot, index) => (
                                     <div key={index} className="flex gap-2 group animate-in fade-in slide-in-from-left-2">
                                         <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-xs font-black text-gray-500">
@@ -251,7 +251,7 @@ export default function AdminEventsPage() {
                                 <Button
                                     type="submit"
                                     disabled={isPending}
-                                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black h-14 rounded-2xl shadow-lg transition-all"
+                                    className="w-full bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black h-14 rounded-2xl shadow-lg transition-all"
                                 >
                                     {isPending ? <LoadingSpinner className="w-5 h-5" /> : 'CRIAR EVENTO AGORA'}
                                 </Button>
@@ -263,7 +263,7 @@ export default function AdminEventsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {events.map(event => (
-                    <div key={event.id} className="group bg-white/5 border border-white/10 p-6 rounded-[2.5rem] hover:bg-white/[0.08] hover:border-indigo-500/30 transition-all duration-500 relative overflow-hidden flex flex-col">
+                    <div key={event.id} className="group bg-white/5 border border-white/10 p-6 rounded-[2.5rem] hover:bg-white/8 hover:border-indigo-500/30 transition-all duration-500 relative overflow-hidden flex flex-col">
                         <div className="flex justify-between items-start mb-6">
                             <div className="w-14 h-14 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                                 <CalendarIcon className="w-7 h-7 text-indigo-400" />

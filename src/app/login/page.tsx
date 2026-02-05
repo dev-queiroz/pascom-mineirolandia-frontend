@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -27,16 +27,16 @@ export default function LoginPage() {
     return (
         <main className="min-h-screen w-full flex flex-col md:flex-row bg-[#050505] text-white overflow-x-hidden">
 
-            <div className="relative hidden md:flex md:w-1/2 lg:w-3/5 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 items-center justify-center p-12">
+            <div className="relative hidden md:flex md:w-1/2 lg:w-3/5 bg-linear-to-br from-indigo-900 via-purple-900 to-pink-900 items-center justify-center p-12">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20" />
-                <div className="absolute w-[500px] h-[500px] bg-purple-500/30 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute w-125 h-125 bg-purple-500/30 rounded-full blur-[120px] animate-pulse" />
 
                 <div className="relative z-10 text-center">
                     <div className="inline-flex p-4 rounded-3xl bg-white/10 backdrop-blur-md mb-6 border border-white/20 shadow-2xl">
                         <Church className="w-16 h-16 text-white" />
                     </div>
                     <h1 className="text-8xl lg:text-9xl font-black tracking-tighter leading-none">
-                        PAS<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500">COM</span>
+                        PAS<span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-pink-500">COM</span>
                     </h1>
                     <p className="text-2xl font-light tracking-[0.2em] text-indigo-200 mt-4 uppercase">
                         Pastoral da Comunicação
@@ -46,8 +46,8 @@ export default function LoginPage() {
 
             <div className="flex-1 flex items-center justify-center p-6 md:p-12 lg:p-20 bg-[#020202] relative">
                 <div className="md:hidden absolute inset-0">
-                    <div className="absolute inset-0 bg-gradient-to-b from-cyan-900/40 via-[#020202] to-[#020202]" />
-                    <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[320px] h-[320px] bg-cyan-500/20 blur-[120px]" />
+                    <div className="absolute inset-0 bg-linear-to-b from-cyan-900/40 via-[#020202] to-[#020202]" />
+                    <div className="absolute -top-30 left-1/2 -translate-x-1/2 w-[320px] h-80 bg-cyan-500/20 blur-[120px]" />
                 </div>
 
                 <div className="w-full max-w-md relative z-10">

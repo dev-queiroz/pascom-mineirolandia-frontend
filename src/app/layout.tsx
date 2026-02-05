@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '../styles/globals.css';
 import Providers from "@/providers/query-provider";
 import { Toaster } from '@/components/ui/sonner';
+import React from "react";
 
 export const metadata: Metadata = {
     title: 'PASCOM Mineirolândia',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFinancial } from '@/hooks/useFinancial';
 import { useFinancialSummary } from '@/queries/financialQueries';
 import { Button } from '@/components/ui/button';
@@ -132,7 +132,7 @@ export default function AdminFinancialPage() {
     if (currentUser?.funcao !== 'admin') return null;
 
     return (
-        <div className="space-y-10 pb-24 px-4 sm:px-6 lg:px-0 max-w-[1400px] mx-auto animate-in fade-in">
+        <div className="space-y-10 pb-24 px-4 sm:px-6 lg:px-0 max-w-350 mx-auto animate-in fade-in">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-black italic uppercase tracking-tight">
@@ -189,7 +189,7 @@ export default function AdminFinancialPage() {
                                         required
                                         value={expenseForm.note}
                                         onChange={e => setExpenseForm({...expenseForm, note: e.target.value})}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white min-h-[100px] focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white min-h-25 focus:outline-none focus:ring-2 focus:ring-rose-500/50"
                                         placeholder="Ex: Compra de materiais, manutenção..."
                                     />
                                 </div>
@@ -220,7 +220,7 @@ export default function AdminFinancialPage() {
             </div>
 
             {isLoadingSummary ? (
-                <div className="h-32 flex items-center justify-center bg-white/5 rounded-[2rem] border border-white/10">
+                <div className="h-32 flex items-center justify-center bg-white/5 rounded-4xl border border-white/10">
                     <LoadingSpinner />
                 </div>
             ) : summary ? (
@@ -245,7 +245,7 @@ export default function AdminFinancialPage() {
                 </div>
 
                 {pendings.length === 0 ? (
-                    <div className="py-20 text-center border-2 border-dashed border-white/5 rounded-[3rem] bg-white/[0.01]">
+                    <div className="py-20 text-center border-2 border-dashed border-white/5 rounded-[3rem] bg-white/1">
                         <Check className="w-10 h-10 text-emerald-500 mx-auto mb-4" />
                         <h3 className="text-xl font-bold">Sem pendências</h3>
                         <p className="text-gray-500">Tudo validado.</p>
@@ -255,9 +255,9 @@ export default function AdminFinancialPage() {
                         {pendings.map(item => (
                             <div
                                 key={item.id}
-                                className="bg-white/5 border border-white/10 rounded-[2rem] overflow-hidden flex flex-col hover:border-amber-500/30 transition-all"
+                                className="bg-white/5 border border-white/10 rounded-4xl overflow-hidden flex flex-col hover:border-amber-500/30 transition-all"
                             >
-                                <div className="relative aspect-[4/3] bg-black/40 overflow-hidden">
+                                <div className="relative aspect-4/3 bg-black/40 overflow-hidden">
                                     {item.receipt ? (
                                         <>
                                             <Image
@@ -335,7 +335,7 @@ export default function AdminFinancialPage() {
 
             {selectedImage && (
                 <div
-                    className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
+                    className="fixed inset-0 z-100 bg-black/95 flex items-center justify-center p-4"
                     onClick={() => setSelectedImage(null)}
                 >
                     <Image
@@ -349,7 +349,7 @@ export default function AdminFinancialPage() {
             )}
 
             <AlertDialog open={!!idToDelete} onOpenChange={() => setIdToDelete(null)}>
-                <AlertDialogContent className="rounded-[2rem] bg-gray-900 border-white/10">
+                <AlertDialogContent className="rounded-4xl bg-gray-900 border-white/10">
                     <AlertDialogHeader>
                         <AlertDialogTitle className="flex items-center gap-3 text-rose-500 text-xl font-black italic">
                             <Trash2 /> Excluir registro?

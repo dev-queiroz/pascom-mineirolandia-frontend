@@ -15,7 +15,7 @@ export default async function DashboardPage() {
             <div className="flex flex-col lg:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
-                        Bem-vindo, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">{user.username}</span>!
+                        Bem-vindo, <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-500">{user.username}</span>!
                     </h1>
                     <p className="text-gray-400 mt-2 flex items-center gap-2">
                         <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-xs uppercase tracking-wider text-purple-400 font-bold">
@@ -76,7 +76,7 @@ export default async function DashboardPage() {
                             {stats.ultimasJustificativas.map(j => (
                                 <div
                                     key={j.id}
-                                    className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2"
+                                    className="p-4 rounded-2xl bg-white/3 border border-white/5 space-y-2"
                                 >
                                     <div className="flex justify-between items-center">
               <span className="font-bold text-white text-sm">
@@ -108,7 +108,7 @@ export default async function DashboardPage() {
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
                                 {stats.ultimasJustificativas.map(j => (
-                                    <tr key={j.id} className="hover:bg-white/[0.02] transition-colors">
+                                    <tr key={j.id} className="hover:bg-white/2 transition-colors">
                                         <td className="py-4 pl-2 font-bold text-gray-200">
                                             {j.user.username}
                                         </td>

@@ -56,7 +56,7 @@ export default function HomePage() {
   return (
       <div className="min-h-screen bg-[#020202] text-white overflow-x-hidden selection:bg-cyan-500/30">
 
-        <header className="fixed top-0 w-full z-[100] px-4 sm:px-6 py-3 sm:py-4 bg-black/40 backdrop-blur-xl border-b border-white/5">
+        <header className="fixed top-0 w-full z-100 px-4 sm:px-6 py-3 sm:py-4 bg-black/40 backdrop-blur-xl border-b border-white/5">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
             <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -66,7 +66,7 @@ export default function HomePage() {
               <div className="relative w-32 h-10">
                 <Image src="/assets/brasao-pascom.png" alt="PASCOM" fill className="object-contain" />
               </div>
-              <div className="h-6 w-[1px] bg-white/10 hidden sm:block" />
+              <div className="h-6 w-px bg-white/10 hidden sm:block" />
               <span className="font-black italic tracking-tighter text-lg uppercase hidden sm:block text-cyan-500">
               MINEIROLÂNDIA
             </span>
@@ -91,7 +91,7 @@ export default function HomePage() {
                       initial={{ x: '-100%' }}
                       animate={{ x: '100%' }}
                       transition={{ repeat: Infinity, duration: 2, ease: "linear", repeatDelay: 3 }}
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"
+                      className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent skew-x-12"
                   />
                   <LogIn className="w-4 h-4 mr-2 relative z-10" />
                   <span className="relative z-10">LOGIN</span>
@@ -101,7 +101,7 @@ export default function HomePage() {
           </div>
         </header>
 
-        <section className="relative min-h-[100svh] md:h-screen flex flex-col items-center justify-center overflow-hidden">
+        <section className="relative min-h-svh md:h-screen flex flex-col items-center justify-center overflow-hidden">
           <motion.div style={{ scale: heroScale }} className="absolute inset-0 z-0">
             <Image
                 fill
@@ -110,7 +110,7 @@ export default function HomePage() {
                 alt="Paróquia Mineirolândia"
                 className="object-cover opacity-40 brightness-75"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-[#020202]/60 to-[#020202]" />
+            <div className="absolute inset-0 bg-linear-to-b from-black/20 via-[#020202]/60 to-[#020202]" />
           </motion.div>
 
           <motion.div
@@ -140,7 +140,7 @@ export default function HomePage() {
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-[9rem] font-black tracking-tighter uppercase italic leading-[0.9] sm:leading-[0.85]">
               VOZ DA <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-cyan-400 to-blue-700">MISSÃO</span>
+              <span className="text-transparent bg-clip-text bg-linear-to-b from-cyan-400 to-blue-700">MISSÃO</span>
             </h1>
             <p className="max-w-xl mx-auto text-gray-400 font-medium text-lg md:text-xl">
               Evangelizando através da tecnologia e unindo corações para o Reino.
@@ -175,7 +175,7 @@ export default function HomePage() {
                         key={i}
                         whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.05)" }}
                         whileTap={{ scale: 0.97 }}
-                        className="p-6 bg-white/[0.02] border border-white/5 rounded-[2.5rem] transition-all"
+                        className="p-6 bg-white/2 border border-white/5 rounded-[2.5rem] transition-all"
                     >
                       <div className="text-cyan-500 w-10 h-10 mb-4">{card.icon}</div>
                       <h4 className="font-black uppercase text-sm tracking-widest mb-2">{card.title}</h4>
@@ -192,14 +192,14 @@ export default function HomePage() {
                 className="relative group cursor-none"
             >
               <div className="absolute -inset-4 bg-cyan-600/20 rounded-[3.5rem] blur-3xl opacity-20 group-hover:opacity-40 transition-opacity" />
-              <div className="relative aspect-[5/4] lg:aspect-[4/3] rounded-[3.5rem] border border-white/10 overflow-hidden shadow-2xl">
+              <div className="relative aspect-5/4 lg:aspect-4/3 rounded-[3.5rem] border border-white/10 overflow-hidden shadow-2xl">
                 <Image
                     fill
                     src="/assets/equipe-pascom.jpeg"
                     className="object-cover transition-transform duration-1000 group-hover:scale-110"
                     alt="Equipe PASCOM"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-60" />
                 <div className="absolute bottom-4 left-4 sm:bottom-10 sm:left-10">
                 <span className="px-4 py-1 bg-cyan-600 text-[10px] font-black uppercase rounded-full">Equipe 2026</span>
                   <h3 className="text-2xl font-black italic uppercase mt-2">Mineirolândia em Foco</h3>
@@ -209,16 +209,16 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="padroeiro" ref={padroeiroRef} className="py-32 relative overflow-hidden bg-white/[0.01]">
+        <section id="padroeiro" ref={padroeiroRef} className="py-32 relative overflow-hidden bg-white/1">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 animate={isPadroeiroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative h-[360px] sm:h-[500px] lg:h-[700px] rounded-[4rem] overflow-hidden group shadow-2xl"
+                className="relative h-90 sm:h-125 lg:h-175 rounded-[4rem] overflow-hidden group shadow-2xl"
             >
-              <Image fill src="/assets/carlo-acutis.jpeg" alt="São Carlo Acutis" className="object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+              <Image fill src="/assets/carlo-acutis.jpeg" alt="São Carlo Acutis" className="object-cover grayscale-30 group-hover:grayscale-0 transition-all duration-700" />
+              <div className="absolute inset-0 bg-linear-to-r from-black/40 to-transparent" />
             </motion.div>
 
             <motion.div

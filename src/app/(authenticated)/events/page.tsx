@@ -39,7 +39,7 @@ export default function EventsPage() {
         error,
         assignSlot,
         removeSlot,
-        isAssigning,
+
         isRemoving,
         refetch
     } = useEventsHook(currentMonth.toString().padStart(2, '0'));
@@ -108,7 +108,7 @@ export default function EventsPage() {
             <div className="flex flex-col lg:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
-                        Escalas do <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">Mês</span>
+                        Escalas do <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-purple-500">Mês</span>
                     </h1>
                     <p className="text-gray-400 mt-2 flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-purple-400" />
@@ -119,7 +119,7 @@ export default function EventsPage() {
                 <Button
                     onClick={() => refetch()}
                     disabled={isUpdating}
-                    className="!bg-white/5 hover:!bg-white/10 !border-white/10 backdrop-blur-md text-white gap-2 rounded-xl transition-all"
+                    className="bg-white/5! hover:bg-white/10! border-white/10! backdrop-blur-md text-white gap-2 rounded-xl transition-all"
                 >
                     <RefreshCw className={`w-4 h-4 ${isUpdating ? 'animate-spin' : ''}`} />
                     Atualizar Dados
@@ -142,14 +142,14 @@ export default function EventsPage() {
             {!isFirstLoading && !error && (
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                     {events.length === 0 ? (
-                        <div className="col-span-full py-20 text-center border-2 border-dashed border-white/5 rounded-[2rem]">
+                        <div className="col-span-full py-20 text-center border-2 border-dashed border-white/5 rounded-4xl">
                             <p className="text-gray-500">Nenhuma escala disponível no momento.</p>
                         </div>
                     ) : (
                         events.map(event => (
                             <div
                                 key={event.id}
-                                className="bg-white/5 border border-white/10 backdrop-blur-md p-4 sm:p-5 lg:p-6 rounded-2xl lg:rounded-[2rem] shadow-2xl flex flex-col group hover:border-purple-500/30 transition-all duration-300"
+                                className="bg-white/5 border border-white/10 backdrop-blur-md p-4 sm:p-5 lg:p-6 rounded-2xl lg:rounded-4xl shadow-2xl flex flex-col group hover:border-purple-500/30 transition-all duration-300"
                             >
                                 <div className="mb-6">
                                     <h3 className="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
@@ -173,7 +173,7 @@ export default function EventsPage() {
 
                                 <div className="space-y-3">
                                     {event.slots.map(slot => (
-                                        <div key={slot.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-white/[0.03] border border-white/5 rounded-2xl hover:bg-white/[0.05] transition-colors">
+                                        <div key={slot.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-white/3 border border-white/5 rounded-2xl hover:bg-white/5 transition-colors">
                                             <div className="flex flex-col">
                                                 <span className="text-xs uppercase tracking-widest text-gray-500 font-bold">Slot {slot.order} • {slot.function}</span>
                                                 <span className={`font-medium ${slot.user ? 'text-indigo-300' : 'text-rose-400/80 italic text-sm'}`}>
@@ -252,7 +252,7 @@ export default function EventsPage() {
                             placeholder="Ex: Imprevisto profissional, motivo de saúde..."
                             value={justification}
                             onChange={(e) => setJustification(e.target.value)}
-                            className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl min-h-[100px] focus:ring-rose-500/50 transition-all focus:outline-none"
+                            className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl min-h-25 focus:ring-rose-500/50 transition-all focus:outline-none"
                         />
                     </div>
 
@@ -266,7 +266,7 @@ export default function EventsPage() {
                                 handleConfirmRemove();
                             }}
                             disabled={isRemoving || !justification.trim()}
-                            className="bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold rounded-2xl py-6 shadow-lg shadow-rose-900/20 border-none transition-all"
+                            className="bg-linear-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold rounded-2xl py-6 shadow-lg shadow-rose-900/20 border-none transition-all"
                         >
                             {isRemoving ? 'Removendo...' : 'Confirmar Desistência'}
                         </AlertDialogAction>

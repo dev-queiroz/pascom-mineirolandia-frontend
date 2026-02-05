@@ -114,7 +114,7 @@ export default function EventDetailPage() {
                 <nav className="flex items-center gap-2 text-sm font-medium text-gray-500">
                     <button onClick={() => router.push('/admin/events')} className="hover:text-white transition-colors">Eventos</button>
                     <ChevronRight className="w-4 h-4" />
-                    <span className="text-indigo-400 truncate max-w-[150px] sm:max-w-none">Detalhes</span>
+                    <span className="text-indigo-400 truncate max-w-37.5 sm:max-w-none">Detalhes</span>
                 </nav>
 
                 {!isEditing && (
@@ -143,17 +143,17 @@ export default function EventDetailPage() {
                             </h1>
 
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                                <div className="p-5 bg-white/[0.03] border border-white/5 rounded-[2rem] group hover:border-indigo-500/20 transition-all">
+                                <div className="p-5 bg-white/3 border border-white/5 rounded-4xl group hover:border-indigo-500/20 transition-all">
                                     <Calendar className="w-6 h-6 text-indigo-400 mb-3" />
                                     <p className="text-[10px] uppercase text-gray-500 font-black tracking-widest mb-1">Data</p>
                                     <p className="text-xl text-white font-black">{event.day}/{event.month}</p>
                                 </div>
-                                <div className="p-5 bg-white/[0.03] border border-white/5 rounded-[2rem] group hover:border-purple-500/20 transition-all">
+                                <div className="p-5 bg-white/3 border border-white/5 rounded-4xl group hover:border-purple-500/20 transition-all">
                                     <Clock className="w-6 h-6 text-purple-400 mb-3" />
                                     <p className="text-[10px] uppercase text-gray-500 font-black tracking-widest mb-1">Horário</p>
                                     <p className="text-xl text-white font-black">{event.time}</p>
                                 </div>
-                                <div className="p-5 bg-white/[0.03] border border-white/5 rounded-[2rem] group hover:border-cyan-500/20 transition-all">
+                                <div className="p-5 bg-white/3 border border-white/5 rounded-4xl group hover:border-cyan-500/20 transition-all">
                                     <MapPin className="w-6 h-6 text-cyan-400 mb-3" />
                                     <p className="text-[10px] uppercase text-gray-500 font-black tracking-widest mb-1">Local</p>
                                     <p className="text-xl text-white font-black truncate">{event.location || '---'}</p>
@@ -161,20 +161,20 @@ export default function EventDetailPage() {
                             </div>
                         </div>
 
-                        <div className="p-8 bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5 rounded-[2.5rem]">
+                        <div className="p-8 bg-linear-to-br from-white/3 to-transparent border border-white/5 rounded-[2.5rem]">
                             <div className="flex justify-between items-end mb-6">
                                 <div>
                                     <p className="text-gray-500 text-[10px] uppercase tracking-[0.2em] font-black mb-1">Engajamento</p>
                                     <h3 className="text-white font-black text-2xl italic">Status de Ocupação</h3>
                                 </div>
                                 <div className="text-right">
-                                    <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">{slotsFilled}</span>
+                                    <span className="text-4xl font-black text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-purple-400">{slotsFilled}</span>
                                     <span className="text-gray-600 font-black text-xl"> / {totalSlots}</span>
                                 </div>
                             </div>
                             <div className="w-full h-4 bg-white/5 rounded-full overflow-hidden p-1 border border-white/5">
                                 <div
-                                    className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 rounded-full transition-all duration-1000 ease-out shadow-[0_0_20px_rgba(99,102,241,0.3)]"
+                                    className="h-full bg-linear-to-r from-indigo-500 via-purple-500 to-cyan-500 rounded-full transition-all duration-1000 ease-out shadow-[0_0_20px_rgba(99,102,241,0.3)]"
                                     style={{ width: `${percentFilled}%` }}
                                 />
                             </div>
@@ -185,7 +185,7 @@ export default function EventDetailPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {event.slots.sort((a, b) => a.order - b.order).map((slot) => (
-                                    <div key={slot.id} className="p-5 bg-white/[0.02] border border-white/5 rounded-[1.5rem] flex items-center justify-between group hover:bg-white/[0.05] hover:border-white/10 transition-all">
+                                    <div key={slot.id} className="p-5 bg-white/2 border border-white/5 rounded-3xl flex items-center justify-between group hover:bg-white/5 hover:border-white/10 transition-all">
                                         <div className="flex items-center gap-5">
                                             <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-xs font-black text-gray-500 border border-white/5">
                                                 {slot.order}
@@ -210,7 +210,7 @@ export default function EventDetailPage() {
                 ) : (
                     <div className="space-y-10 animate-in slide-in-from-bottom-8 duration-500">
                         <div className="flex items-center gap-4">
-                            <div className="w-14 h-14 rounded-[1.5rem] bg-indigo-600 flex items-center justify-center shadow-2xl shadow-indigo-500/40">
+                            <div className="w-14 h-14 rounded-3xl bg-indigo-600 flex items-center justify-center shadow-2xl shadow-indigo-500/40">
                                 <Edit2 className="w-7 h-7 text-white" />
                             </div>
                             <div>
@@ -282,8 +282,8 @@ export default function EventDetailPage() {
 
                                 <div className="space-y-4">
                                     {editForm.slots.map((slot, index) => (
-                                        <div key={index} className="group p-2 bg-white/[0.03] border border-white/5 rounded-2xl flex items-center gap-4 transition-all focus-within:border-indigo-500/40 focus-within:bg-white/[0.05]">
-                                            <div className="w-12 h-12 flex-shrink-0 bg-white/5 rounded-xl flex items-center justify-center text-xs font-black text-gray-600 border border-white/5">
+                                        <div key={index} className="group p-2 bg-white/3 border border-white/5 rounded-2xl flex items-center gap-4 transition-all focus-within:border-indigo-500/40 focus-within:bg-white/5">
+                                            <div className="w-12 h-12 shrink-0 bg-white/5 rounded-xl flex items-center justify-center text-xs font-black text-gray-600 border border-white/5">
                                                 {slot.order}
                                             </div>
                                             <Input
@@ -303,7 +303,7 @@ export default function EventDetailPage() {
                                         </div>
                                     ))}
                                     {editForm.slots.length === 0 && (
-                                        <div className="text-center py-12 border-2 border-dashed border-white/5 rounded-[2rem] bg-white/[0.01]">
+                                        <div className="text-center py-12 border-2 border-dashed border-white/5 rounded-4xl bg-white/1">
                                             <p className="text-gray-600 font-medium">Nenhum slot definido para este evento.</p>
                                         </div>
                                     )}
@@ -315,7 +315,7 @@ export default function EventDetailPage() {
                             <Button
                                 onClick={handleSave}
                                 disabled={isPending}
-                                className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black h-16 rounded-2xl shadow-2xl shadow-indigo-500/20 transition-all text-lg"
+                                className="flex-1 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black h-16 rounded-2xl shadow-2xl shadow-indigo-500/20 transition-all text-lg"
                             >
                                 {isPending ? <LoadingSpinner className="w-6 h-6 mr-2" /> : <Check className="w-6 h-6 mr-2" />}
                                 ATUALIZAR ESCALA

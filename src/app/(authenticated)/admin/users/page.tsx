@@ -72,7 +72,7 @@ export default function AdminUsersPage() {
     if (currentUser?.funcao !== 'admin') return null;
 
     return (
-        <div className="max-w-[1400px] mx-auto space-y-6 sm:space-y-8 px-4 sm:px-6 lg:px-0 animate-in fade-in duration-700">
+        <div className="max-w-350 mx-auto space-y-6 sm:space-y-8 px-4 sm:px-6 lg:px-0 animate-in fade-in duration-700">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tighter italic">
@@ -90,7 +90,7 @@ export default function AdminUsersPage() {
                     <div
                         key={member.id}
                         className={cn(
-                            "group relative bg-white/[0.02] border rounded-[2rem] p-4 sm:p-6 lg:p-8 transition-all duration-500 hover:shadow-2xl",
+                            "group relative bg-white/2 border rounded-4xl p-4 sm:p-6 lg:p-8 transition-all duration-500 hover:shadow-2xl",
                             member.situacao === 'ativo'
                                 ? "border-white/10 hover:border-cyan-500/30"
                                 : "border-rose-500/20 opacity-60"
@@ -98,7 +98,7 @@ export default function AdminUsersPage() {
                     >
                         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
                             <div className="flex items-center gap-4">
-                                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-3xl bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/10 flex items-center justify-center">
+                                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-3xl bg-linear-to-br from-white/10 to-white/2 border border-white/10 flex items-center justify-center">
                                     <User
                                         className={cn(
                                             "w-7 h-7 sm:w-8 sm:h-8",
@@ -261,7 +261,7 @@ export default function AdminUsersPage() {
             </div>
 
             <AlertDialog open={!!userToDelete} onOpenChange={() => setUserToDelete(null)}>
-                <AlertDialogContent className="bg-gray-900 border-white/10 text-white rounded-[2rem] max-w-[90vw] sm:max-w-lg">
+                <AlertDialogContent className="bg-gray-900 border-white/10 text-white rounded-4xl max-w-[90vw] sm:max-w-lg">
                     <AlertDialogHeader>
                         <AlertDialogTitle className="text-xl sm:text-2xl font-black italic">
                             EXCLUIR PERMANENTEMENTE?

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useFinancial } from '@/hooks/useFinancial';
 import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
@@ -67,7 +67,7 @@ export default function FinancialPage() {
         <div className="space-y-8 px-4 sm:px-0 overflow-x-hidden animate-in fade-in duration-500">
             <div>
                 <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
-                    Gestão <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Financeira</span>
+                    Gestão <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 to-cyan-500">Financeira</span>
                 </h1>
                 <p className="text-gray-400 mt-2 flex items-center gap-2">
                     <DollarSign className="w-4 h-4 text-emerald-400" />
@@ -102,7 +102,7 @@ export default function FinancialPage() {
                                     step="0.01"
                                     value={form.value}
                                     onChange={e => setForm({ ...form, value: e.target.value })}
-                                    className={`w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:ring-2 transition-all ${type === 'entrada' ? 'focus:ring-emerald-500/50' : 'focus:ring-rose-500/50'}`}
+                                    className={`w-full bg-white/3 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:ring-2 transition-all ${type === 'entrada' ? 'focus:ring-emerald-500/50' : 'focus:ring-rose-500/50'}`}
                                     placeholder="0,00"
                                     required
                                 />
@@ -116,15 +116,15 @@ export default function FinancialPage() {
                                     type="date"
                                     value={form.date}
                                     onChange={e => setForm({ ...form, date: e.target.value })}
-                                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                                    className="w-full bg-white/3 border border-white/10 rounded-2xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
                                     required
                                 />
                             </div>
                             <div className="space-y-2">
                                 <Label className="text-gray-400 ml-1">Comprovante {type === 'saida' && '(Opcional)'}</Label>
-                                <label className={`flex items-center justify-center w-full bg-white/[0.03] border border-dashed border-white/20 rounded-2xl py-3 px-4 cursor-pointer hover:bg-white/[0.05] transition-all group ${type === 'saida' ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                                <label className={`flex items-center justify-center w-full bg-white/3 border border-dashed border-white/20 rounded-2xl py-3 px-4 cursor-pointer hover:bg-white/5 transition-all group ${type === 'saida' ? 'opacity-50 cursor-not-allowed' : ''}`}>
                                     <Upload className={`w-5 h-5 ${file ? 'text-emerald-400' : 'text-gray-500 group-hover:text-emerald-400'}`} />
-                                    <span className="ml-2 text-sm text-gray-400 truncate max-w-[120px]">
+                                    <span className="ml-2 text-sm text-gray-400 truncate max-w-30">
                                         {file ? file.name : type === 'entrada' ? 'Anexar' : 'Indisponível'}
                                     </span>
                                     <input
@@ -142,7 +142,7 @@ export default function FinancialPage() {
                             <textarea
                                 value={form.note}
                                 onChange={e => setForm({ ...form, note: e.target.value })}
-                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3 px-4 text-white min-h-[100px] focus:outline-none focus:ring-2 transition-all"
+                                className="w-full bg-white/3 border border-white/10 rounded-2xl py-3 px-4 text-white min-h-25 focus:outline-none focus:ring-2 transition-all"
                                 placeholder={type === 'entrada' ? "Descreva aqui..." : "Motivo da saída..."}
                             />
                         </div>
@@ -152,8 +152,8 @@ export default function FinancialPage() {
                             disabled={isPending}
                             className={`w-full py-6 text-white font-bold rounded-2xl shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] ${
                                 type === 'entrada'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-emerald-900/20'
-                                    : 'bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 shadow-rose-900/20'
+                                    ? 'bg-linear-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-emerald-900/20'
+                                    : 'bg-linear-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 shadow-rose-900/20'
                             }`}
                         >
                             {isPending ? (
@@ -184,7 +184,7 @@ export default function FinancialPage() {
                             {pendings.map(item => (
                                 <div
                                     key={item.id}
-                                    className="group bg-white/5 border border-white/10 p-4 sm:p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-white/[0.08] transition-all"
+                                    className="group bg-white/5 border border-white/10 p-4 sm:p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-white/8 transition-all"
                                 >
                                     <div className="flex items-center gap-4">
                                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${item.type === 'entrada' ? 'bg-emerald-500/10' : 'bg-rose-500/10'}`}>
