@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useUserMutations } from '@/mutations/userMutations';
 import { User, UserUpdateDTO } from '@/types/user';
 import { Button } from '@/components/ui/button';
@@ -51,7 +51,7 @@ export function EditUserModal({ member }: EditUserModalProps) {
                     <Edit2 className="w-5 h-5" />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="bg-gray-900 border-white/10 text-white rounded-[2.5rem] sm:max-w-[450px]">
+            <DialogContent className="bg-gray-900 border-white/10 text-white rounded-[2.5rem] sm:max-w-112.5">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter">
                         Editar <span className="text-cyan-500">Voluntário</span>
@@ -66,7 +66,7 @@ export function EditUserModal({ member }: EditUserModalProps) {
                     <div className="space-y-2">
                         <Label className="text-gray-400 ml-1">Nome de Usuário</Label>
                         <Input
-                            value={form.username ?? ''} // ?? '' resolve TS2322 (null/undefined)
+                            value={form.username ?? ''}
                             onChange={e => setForm({...form, username: e.target.value})}
                             className="bg-white/5 border-white/10 rounded-xl h-12 text-white"
                         />

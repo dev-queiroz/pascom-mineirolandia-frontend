@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             <Header onOpenMenu={() => setIsSidebarOpen(true)} />
 
                 <main className="flex-1 overflow-y-auto bg-[#050505]">
-                    <div className="p-4 md:p-10 max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-2 duration-700">
+                    <div className="p-4 md:p-10 max-w-400 mx-auto animate-in fade-in slide-in-from-bottom-2 duration-700">
                         {children}
                     </div>
                 </main>

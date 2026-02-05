@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useUsersHook } from '@/hooks/useUsers';
 import { CreateUserDTO } from '@/types/user';
 import { Button } from '@/components/ui/button';
@@ -45,7 +45,7 @@ export function CreateUserModal() {
                     <UserPlus className="w-5 h-5" /> Novo Membro
                 </Button>
             </DialogTrigger>
-            <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-[450px] bg-gray-900 border-white/10 text-white rounded-[2.5rem]">
+            <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-112.5 bg-gray-900 border-white/10 text-white rounded-[2.5rem]">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter">
                         Cadastrar <span className="text-cyan-500">Membro</span>

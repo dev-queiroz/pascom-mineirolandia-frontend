@@ -14,7 +14,7 @@ export default function ExportPdfButton({ monthStr }: { monthStr: string }) {
         try {
             await eventService.downloadScalePdf(monthStr);
             toast.success("PDF gerado com sucesso!");
-        } catch (error) {
+        } catch {
             toast.error("Erro ao gerar PDF.");
         } finally {
             setLoading(false);

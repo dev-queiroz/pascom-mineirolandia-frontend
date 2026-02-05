@@ -74,7 +74,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                 className={cn(
                                     'flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all group',
                                     isActive
-                                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-purple-600/20'
+                                        ? 'bg-linear-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-purple-600/20'
                                         : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 )}
                             >
