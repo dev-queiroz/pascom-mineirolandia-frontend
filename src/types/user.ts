@@ -7,7 +7,7 @@ export interface User {
     setor?: string | null;
     funcao: 'user' | 'admin' | string;
     acompanhante: 'sim' | 'nao' | string;
-    createdAt: string; // ISO date
+    createdAt: string;
 }
 
 export interface CreateUserDTO {

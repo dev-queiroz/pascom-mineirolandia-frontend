@@ -3,11 +3,11 @@ import {User} from "@/types/user";
 export interface Contribution {
     id: number;
     type: 'entrada' | 'saida';
-    value: number | string; // Decimal
-    date: string; // ISO date
-    time?: string | null; // 'HH:mm'
+    value: number | string;
+    date: string;
+    time?: string | null;
     note?: string | null;
-    receipt?: string | null; // caminho do arquivo
+    receipt?: string | null;
     userId: number;
     status: 'pendente' | 'confirmado';
     createdAt: string;

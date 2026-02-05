@@ -181,7 +181,7 @@ export default function EventsPage() {
                                                 </span>
                                             </div>
 
-                                            <div className="flex flex-wrap items-center gap-2 justify-end"> {/* Adicionado flex e gap */}
+                                            <div className="flex flex-wrap items-center gap-2 justify-end">
                                                 {!slot.userId ? (
                                                     <Button
                                                         size="sm"
@@ -199,7 +199,6 @@ export default function EventsPage() {
                                                     </Button>
                                                 ) : slot.user?.username === user?.username && (
                                                     <>
-                                                        {/* BOTÃO ICS NOVO */}
                                                         <Button
                                                             size="sm"
                                                             variant="outline"

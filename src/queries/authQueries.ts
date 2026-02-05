@@ -13,7 +13,6 @@ export function useCurrentUser() {
         queryFn: () => apiFetch<User>('/auth/me'),
         staleTime: 1000 * 60 * 5,
         retry: (failureCount, error: Error) => {
-            // Se for erro de autorização, não tenta de novo.
             if (error.message === 'UNAUTHORIZED') return false;
             return failureCount < 2;
         },

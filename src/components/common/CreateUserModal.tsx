@@ -17,7 +17,6 @@ export function CreateUserModal() {
         isCreating,
     } = useUsersHook();
 
-    // Estado estritamente tipado
     const [form, setForm] = useState<Required<CreateUserDTO>>({
         username: '',
         password: '',

@@ -113,8 +113,6 @@ export default function AdminEventsPage() {
 
     return (
         <div className="max-w-7xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8 animate-in fade-in duration-700 pb-20">
-
-            {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
                     <div className="flex items-center gap-2 mb-2">
@@ -138,7 +136,6 @@ export default function AdminEventsPage() {
                 )}
             </div>
 
-            {/* Formulário de Adição (Glass Card) */}
             {isAdding && (
                 <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-[2.5rem] p-6 sm:p-10 shadow-2xl animate-in slide-in-from-top-6 duration-500 relative overflow-hidden">
                     <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/10 blur-[80px] rounded-full" />
@@ -264,7 +261,6 @@ export default function AdminEventsPage() {
                 </div>
             )}
 
-            {/* Grid de Listagem (Glass Cards) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {events.map(event => (
                     <div key={event.id} className="group bg-white/5 border border-white/10 p-6 rounded-[2.5rem] hover:bg-white/[0.08] hover:border-indigo-500/30 transition-all duration-500 relative overflow-hidden flex flex-col">
@@ -334,7 +330,6 @@ export default function AdminEventsPage() {
                 ))}
             </div>
 
-            {/* Dialog de Exclusão Refinado */}
             <AlertDialog open={!!eventToDelete} onOpenChange={() => setEventToDelete(null)}>
                 <AlertDialogContent className="bg-gray-900/95 border border-white/10 backdrop-blur-xl rounded-[2.5rem] max-w-[90vw] sm:max-w-lg shadow-2xl p-8">
                     <AlertDialogHeader>

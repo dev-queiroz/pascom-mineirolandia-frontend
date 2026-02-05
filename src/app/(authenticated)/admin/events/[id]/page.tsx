@@ -8,9 +8,7 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    ArrowLeft, Calendar, MapPin, Clock, Edit2, X, Check, AlertTriangle, Plus, Trash2, LayoutDashboard, ChevronRight
-} from 'lucide-react';
+import { Calendar, MapPin, Clock, Edit2, Check, AlertTriangle, Plus, Trash2, ChevronRight } from 'lucide-react';
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -78,7 +76,6 @@ export default function EventDetailPage() {
 
     const handleSave = async () => {
         try {
-            // Sincronização com o Backend: Novos slots não podem ter ID 0 ou null
             const sanitizedSlots = editForm.slots.map(slot => {
                 if (!slot.id) {
                     const { id, ...rest } = slot;
@@ -113,7 +110,6 @@ export default function EventDetailPage() {
     return (
         <div className="max-w-5xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8 animate-in fade-in duration-500 pb-20">
 
-            {/* Top Navigation / Breadcrumb */}
             <div className="flex items-center justify-between">
                 <nav className="flex items-center gap-2 text-sm font-medium text-gray-500">
                     <button onClick={() => router.push('/admin/events')} className="hover:text-white transition-colors">Eventos</button>
@@ -137,7 +133,6 @@ export default function EventDetailPage() {
 
                 {!isEditing ? (
                     <div className="space-y-10">
-                        {/* Event Header Info */}
                         <div className="relative">
                             <div className="flex items-center gap-2 mb-4">
                                 <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
@@ -166,7 +161,6 @@ export default function EventDetailPage() {
                             </div>
                         </div>
 
-                        {/* Occupation Stats */}
                         <div className="p-8 bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5 rounded-[2.5rem]">
                             <div className="flex justify-between items-end mb-6">
                                 <div>
@@ -186,7 +180,6 @@ export default function EventDetailPage() {
                             </div>
                         </div>
 
-                        {/* Slots List */}
                         <div className="space-y-6">
                             <h2 className="text-2xl font-black text-white italic tracking-tight px-2">Configuração da Escala</h2>
 
@@ -227,7 +220,6 @@ export default function EventDetailPage() {
                         </div>
 
                         <div className="grid gap-8">
-                            {/* Campos principais */}
                             <div className="space-y-6">
                                 <div className="space-y-2">
                                     <Label className="text-gray-400 font-bold text-xs uppercase tracking-widest ml-1">Descrição</Label>
@@ -275,7 +267,6 @@ export default function EventDetailPage() {
                                 </div>
                             </div>
 
-                            {/* Seção de Slots */}
                             <div className="pt-10 border-t border-white/5">
                                 <div className="flex justify-between items-center mb-8">
                                     <h2 className="text-2xl font-black text-white italic tracking-tight">Gerenciar Vagas</h2>
@@ -320,7 +311,6 @@ export default function EventDetailPage() {
                             </div>
                         </div>
 
-                        {/* Botões de Ação */}
                         <div className="flex flex-col sm:flex-row gap-4 pt-10">
                             <Button
                                 onClick={handleSave}

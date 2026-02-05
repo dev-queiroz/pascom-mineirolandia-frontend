@@ -12,7 +12,6 @@ export default async function DashboardPage() {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
-            {/* Header de Boas-vindas */}
             <div className="flex flex-col lg:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
@@ -26,14 +25,11 @@ export default async function DashboardPage() {
                         <span className="text-sm italic tracking-wide">Média mensal: {user.escalacao || 2} escalas</span>
                     </p>
                 </div>
-
-                {/* Botão de Exportação (Apenas para Admin) */}
                 {user.funcao === 'admin' && (
                     <ExportPdfButton monthStr={monthStr} />
                 )}
             </div>
 
-            {/* Grid de Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
                 <StatCard
                     title="Pendências Financeiras"
@@ -60,8 +56,6 @@ export default async function DashboardPage() {
                     color="purple"
                 />
             </div>
-
-            {/* JUSTIFICATIVAS */}
             <div className="bg-white/5 border border-white/10 backdrop-blur-md p-5 md:p-6 rounded-[2.5rem] shadow-2xl">
                 <div className="flex items-center gap-3 mb-6">
                     <span className="w-1.5 h-6 bg-purple-500 rounded-full" />
@@ -78,7 +72,6 @@ export default async function DashboardPage() {
                     </div>
                 ) : (
                     <>
-                        {/* MOBILE — CARDS */}
                         <div className="space-y-4 md:hidden">
                             {stats.ultimasJustificativas.map(j => (
                                 <div
@@ -104,8 +97,6 @@ export default async function DashboardPage() {
                                 </div>
                             ))}
                         </div>
-
-                        {/* DESKTOP — TABELA */}
                         <div className="hidden md:block overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>

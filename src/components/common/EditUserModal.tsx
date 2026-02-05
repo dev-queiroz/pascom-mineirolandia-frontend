@@ -18,7 +18,6 @@ export function EditUserModal({ member }: EditUserModalProps) {
     const [open, setOpen] = useState(false);
     const { updateUser, isUpdating } = useUserMutations();
 
-    // Estado inicial direto, sem useEffect
     const [form, setForm] = useState<UserUpdateDTO>({
         username: member.username,
         setor: member.setor ?? '',
@@ -29,7 +28,6 @@ export function EditUserModal({ member }: EditUserModalProps) {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Limpeza do DTO para o PATCH
         const updateData: UserUpdateDTO = { ...form };
         if (!updateData.password) delete updateData.password;
 
@@ -60,7 +58,6 @@ export function EditUserModal({ member }: EditUserModalProps) {
                     </DialogTitle>
                 </DialogHeader>
 
-                {/* A KEY garante que o formulário resete ao trocar de usuário sem o erro do useEffect */}
                 <form
                     key={member.id + open.toString()}
                     onSubmit={handleSubmit}

@@ -65,7 +65,6 @@ export default function FinancialPage() {
 
     return (
         <div className="space-y-8 px-4 sm:px-0 overflow-x-hidden animate-in fade-in duration-500">
-            {/* Header */}
             <div>
                 <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
                     Gestão <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Financeira</span>
@@ -77,11 +76,7 @@ export default function FinancialPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-
-                {/* Formulário */}
                 <div className="lg:col-span-5 bg-white/5 border border-white/10 backdrop-blur-md p-5 sm:p-6 lg:p-8 rounded-2xl lg:rounded-[2.5rem] shadow-2xl">
-
-                    {/* Seletor de Tipo (Tab style) */}
                     <div className="flex bg-black/20 p-1 rounded-xl mb-6">
                         <button
                             onClick={() => setType('entrada')}
@@ -125,8 +120,6 @@ export default function FinancialPage() {
                                     required
                                 />
                             </div>
-
-                            {/* Campo de Comprovante condicional para Entrada */}
                             <div className="space-y-2">
                                 <Label className="text-gray-400 ml-1">Comprovante {type === 'saida' && '(Opcional)'}</Label>
                                 <label className={`flex items-center justify-center w-full bg-white/[0.03] border border-dashed border-white/20 rounded-2xl py-3 px-4 cursor-pointer hover:bg-white/[0.05] transition-all group ${type === 'saida' ? 'opacity-50 cursor-not-allowed' : ''}`}>
@@ -175,7 +168,6 @@ export default function FinancialPage() {
                     </form>
                 </div>
 
-                {/* Listagem de Pendências */}
                 <div className="lg:col-span-7 space-y-6">
                     <h2 className="text-xl font-bold text-white flex items-center gap-3 sticky top-0 bg-black/30 backdrop-blur-sm py-2 z-10">
                         <AlertCircle className="w-6 h-6 text-amber-400" />

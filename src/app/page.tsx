@@ -12,8 +12,6 @@ export default function HomePage() {
   const { scrollY } = useScroll();
   const padroeiroRef = useRef(null);
   const isPadroeiroInView = useInView(padroeiroRef, { once: true, margin: "-100px" });
-
-  // Animações de Scroll
   const logoSize = useTransform(scrollY, [0, 300], [240, 100]);
   const logoY = useTransform(scrollY, [0, 300], [40, 80]);
   const logoOpacity = useTransform(scrollY, [0, 250], [1, 0]);
@@ -46,7 +44,7 @@ export default function HomePage() {
     const el = document.getElementById(id);
     if (!el) return;
 
-    const yOffset = -100; // altura do header fixo
+    const yOffset = -100;
     const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
 
     window.scrollTo({
@@ -58,7 +56,6 @@ export default function HomePage() {
   return (
       <div className="min-h-screen bg-[#020202] text-white overflow-x-hidden selection:bg-cyan-500/30">
 
-        {/* HEADER COM SHIMMER BUTTON */}
         <header className="fixed top-0 w-full z-[100] px-4 sm:px-6 py-3 sm:py-4 bg-black/40 backdrop-blur-xl border-b border-white/5">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
             <motion.div
@@ -90,7 +87,6 @@ export default function HomePage() {
               </button>
               <Link href="/login">
                 <Button className="group relative overflow-hidden bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl px-6 font-black italic transition-all shadow-lg shadow-cyan-900/40">
-                  {/* Efeito de Brilho (Shimmer) */}
                   <motion.div
                       initial={{ x: '-100%' }}
                       animate={{ x: '100%' }}
@@ -105,7 +101,6 @@ export default function HomePage() {
           </div>
         </header>
 
-        {/* HERO COM PARALLAX */}
         <section className="relative min-h-[100svh] md:h-screen flex flex-col items-center justify-center overflow-hidden">
           <motion.div style={{ scale: heroScale }} className="absolute inset-0 z-0">
             <Image
@@ -118,7 +113,6 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-[#020202]/60 to-[#020202]" />
           </motion.div>
 
-          {/* Brasão Flutuante */}
           <motion.div
               style={{ width: logoSize, y: logoY, opacity: logoOpacity }}
               animate={{ y: [0, -20, 0] }}
@@ -157,7 +151,6 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* SEÇÃO SOBRE COM REVEAL */}
         <section id="sobre" className="py-20 sm:py-24 md:py-32 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div
@@ -216,7 +209,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* PADROEIRO COM EFEITO DE ENTRADA */}
         <section id="padroeiro" ref={padroeiroRef} className="py-32 relative overflow-hidden bg-white/[0.01]">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div

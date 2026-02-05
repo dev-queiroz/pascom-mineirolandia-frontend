@@ -27,7 +27,6 @@ export default function LoginPage() {
     return (
         <main className="min-h-screen w-full flex flex-col md:flex-row bg-[#050505] text-white overflow-x-hidden">
 
-            {/* HERO DESKTOP — INTACTO */}
             <div className="relative hidden md:flex md:w-1/2 lg:w-3/5 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 items-center justify-center p-12">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20" />
                 <div className="absolute w-[500px] h-[500px] bg-purple-500/30 rounded-full blur-[120px] animate-pulse" />
@@ -45,18 +44,13 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            {/* FORM — MOBILE PERSONALIZADO */}
             <div className="flex-1 flex items-center justify-center p-6 md:p-12 lg:p-20 bg-[#020202] relative">
-
-                {/* HERO MOBILE */}
                 <div className="md:hidden absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-b from-cyan-900/40 via-[#020202] to-[#020202]" />
                     <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[320px] h-[320px] bg-cyan-500/20 blur-[120px]" />
                 </div>
 
                 <div className="w-full max-w-md relative z-10">
-
-                    {/* IDENTIDADE MOBILE */}
                     <div className="mb-10 text-center md:hidden space-y-3">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/5 border border-white/10 rounded-full backdrop-blur-md">
                             <Sparkles className="w-3 h-3 text-cyan-400" />
@@ -85,7 +79,6 @@ export default function LoginPage() {
                         </p>
                     </div>
 
-                    {/* HEADER DESKTOP */}
                     <div className="mb-10 hidden md:block">
                         <h2 className="text-3xl font-bold">Bem-vindo de volta</h2>
                         <p className="text-gray-400 mt-2">Acesse sua conta para gerenciar o sistema.</p>

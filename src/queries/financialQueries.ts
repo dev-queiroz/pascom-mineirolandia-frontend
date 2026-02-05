@@ -20,6 +20,6 @@ export function useFinancialSummary(month?: string) {
     return useQuery<FinancialSummary, Error>({
         queryKey: financialKeys.summary(month),
         queryFn: () => financialService.getSummary(month),
-        placeholderData: (previousData) => previousData, // Mantém dados antigos enquanto carrega novos
+        placeholderData: (previousData) => previousData,
     });
 }

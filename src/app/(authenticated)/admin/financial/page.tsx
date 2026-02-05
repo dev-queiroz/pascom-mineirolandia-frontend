@@ -133,8 +133,6 @@ export default function AdminFinancialPage() {
 
     return (
         <div className="space-y-10 pb-24 px-4 sm:px-6 lg:px-0 max-w-[1400px] mx-auto animate-in fade-in">
-
-            {/* Header + Filtro + Ações */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-black italic uppercase tracking-tight">
@@ -146,7 +144,6 @@ export default function AdminFinancialPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-4">
-                    {/* Botão Nova Saída */}
                     <Dialog open={isExpenseDialogOpen} onOpenChange={setIsExpenseDialogOpen}>
                         <DialogTrigger asChild>
                             <Button className="w-full sm:w-auto bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl h-12 px-6 gap-2 transition-all active:scale-95 shadow-lg shadow-rose-900/20">
@@ -207,7 +204,6 @@ export default function AdminFinancialPage() {
                         </DialogContent>
                     </Dialog>
 
-                    {/* Filtro de Período */}
                     <div className="flex items-center gap-2 bg-white/5 border border-white/10 p-2 rounded-2xl w-full sm:w-auto h-12">
                         <div className="flex items-center gap-2 px-3 text-gray-400 border-r border-white/10">
                             <Filter className="w-4 h-4" />
@@ -223,7 +219,6 @@ export default function AdminFinancialPage() {
                 </div>
             </div>
 
-            {/* Resumo */}
             {isLoadingSummary ? (
                 <div className="h-32 flex items-center justify-center bg-white/5 rounded-[2rem] border border-white/10">
                     <LoadingSpinner />
@@ -234,7 +229,6 @@ export default function AdminFinancialPage() {
 
             <hr className="border-white/5" />
 
-            {/* Pendências */}
             <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <h2 className="text-xl font-bold flex items-center gap-3">
@@ -263,7 +257,6 @@ export default function AdminFinancialPage() {
                                 key={item.id}
                                 className="bg-white/5 border border-white/10 rounded-[2rem] overflow-hidden flex flex-col hover:border-amber-500/30 transition-all"
                             >
-                                {/* Comprovante */}
                                 <div className="relative aspect-[4/3] bg-black/40 overflow-hidden">
                                     {item.receipt ? (
                                         <>
@@ -294,8 +287,6 @@ export default function AdminFinancialPage() {
                                         R$ {Number(item.value).toFixed(2)}
                                     </div>
                                 </div>
-
-                                {/* Conteúdo */}
                                 <div className="p-5 sm:p-6 space-y-4 flex-1">
                                     <div className="flex justify-between items-start">
                                         <div>
@@ -317,7 +308,6 @@ export default function AdminFinancialPage() {
                                         </p>
                                     )}
 
-                                    {/* Ações */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto pt-2">
                                         <Button
                                             disabled={isConfirming || isDeleting}
@@ -343,7 +333,6 @@ export default function AdminFinancialPage() {
                 )}
             </div>
 
-            {/* Lightbox */}
             {selectedImage && (
                 <div
                     className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
@@ -359,7 +348,6 @@ export default function AdminFinancialPage() {
                 </div>
             )}
 
-            {/* Modal Exclusão */}
             <AlertDialog open={!!idToDelete} onOpenChange={() => setIdToDelete(null)}>
                 <AlertDialogContent className="rounded-[2rem] bg-gray-900 border-white/10">
                     <AlertDialogHeader>

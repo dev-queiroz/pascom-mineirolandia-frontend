@@ -7,7 +7,7 @@ export function useLoginMutation() {
 
     return useMutation({
         mutationFn: async (formData: FormData) => {
-            await loginAction(formData); // Server Action cuida do redirect
+            await loginAction(formData);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: authKeys.currentUser() });

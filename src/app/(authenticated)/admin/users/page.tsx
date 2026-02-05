@@ -21,13 +21,11 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function AdminUsersPage() {
-    // Corrigido para isLoading conforme seu log de erro
     const { user: currentUser, isLoading: authLoading } = useAuth();
     const router = useRouter();
     const { users, isLoading, updateUser, isUpdating, deleteUser, isDeleting } = useUsersHook();
     const [userToDelete, setUserToDelete] = useState<UserType | null>(null);
 
-    // Proteção de Rota
     useEffect(() => {
         if (!authLoading && (!currentUser || currentUser.funcao !== 'admin')) {
             toast.error("Acesso restrito a administradores.");
@@ -75,7 +73,6 @@ export default function AdminUsersPage() {
 
     return (
         <div className="max-w-[1400px] mx-auto space-y-6 sm:space-y-8 px-4 sm:px-6 lg:px-0 animate-in fade-in duration-700">
-            {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tighter italic">
@@ -88,7 +85,6 @@ export default function AdminUsersPage() {
                 <CreateUserModal />
             </div>
 
-            {/* Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {users.map((member) => (
                     <div
@@ -100,7 +96,6 @@ export default function AdminUsersPage() {
                                 : "border-rose-500/20 opacity-60"
                         )}
                     >
-                        {/* Header do Card */}
                         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
                             <div className="flex items-center gap-4">
                                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-3xl bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/10 flex items-center justify-center">
@@ -123,7 +118,6 @@ export default function AdminUsersPage() {
                                 </div>
                             </div>
 
-                            {/* Ações DESKTOP */}
                             <div className="hidden sm:flex gap-2 self-end sm:self-auto">
                                 <Button
                                     variant="ghost"
@@ -155,7 +149,6 @@ export default function AdminUsersPage() {
                             </div>
                         </div>
 
-                        {/* MOBILE: Status + Ações em linha */}
                         <div className="flex sm:hidden items-center justify-between gap-3 mb-6">
                             <div className="flex gap-2">
                                 <span className="px-2 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] font-bold uppercase tracking-tight text-gray-400">
@@ -203,7 +196,6 @@ export default function AdminUsersPage() {
                             </div>
                         </div>
 
-                        {/* Info Desktop */}
                         <div className="hidden sm:block space-y-1 mb-6">
                             <h3 className="text-xl font-black text-white tracking-tight">
                                 {member.username}
@@ -213,7 +205,6 @@ export default function AdminUsersPage() {
                             </p>
                         </div>
 
-                        {/* Badges DESKTOP */}
                         <div className="hidden sm:flex flex-wrap gap-2 mb-6 sm:mb-8">
                             <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
                                 {member.funcao}
@@ -230,7 +221,6 @@ export default function AdminUsersPage() {
                             </span>
                         </div>
 
-                        {/* Contato */}
                         <div className="space-y-3 pt-6 border-t border-white/5">
                             <div className="flex items-center gap-3 text-sm text-gray-400 font-medium break-all">
                                 <Phone className="w-4 h-4 text-cyan-600 shrink-0" />
@@ -238,7 +228,6 @@ export default function AdminUsersPage() {
                             </div>
                         </div>
 
-                        {/* Ação principal */}
                         {member.id !== currentUser?.id ? (
                             <Button
                                 disabled={isUpdating}
@@ -271,7 +260,6 @@ export default function AdminUsersPage() {
                 ))}
             </div>
 
-            {/* Dialog */}
             <AlertDialog open={!!userToDelete} onOpenChange={() => setUserToDelete(null)}>
                 <AlertDialogContent className="bg-gray-900 border-white/10 text-white rounded-[2rem] max-w-[90vw] sm:max-w-lg">
                     <AlertDialogHeader>

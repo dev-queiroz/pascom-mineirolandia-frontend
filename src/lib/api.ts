@@ -1,6 +1,5 @@
 import { API_BASE_URL } from './constants';
 
-// lib/api.ts
 export async function apiFetch<T>(
     endpoint: string,
     options: RequestInit & { public?: boolean } = {}
@@ -14,7 +13,6 @@ export async function apiFetch<T>(
 
     try {
         if (typeof window === 'undefined') {
-            // Server-side: Server Components, Server Actions, getServerSideProps, etc.
             const { cookies } = await import('next/headers');
             token = (await cookies()).get('access_token')?.value;
             headers.set('Authorization', `Bearer ${token}`);
@@ -43,7 +41,6 @@ export async function apiFetch<T>(
         });
 
         if (res.status === 401 && !options.public) {
-            // Opcional: limpar cookie se 401
             if (typeof window === 'undefined') {
                 const { cookies } = await import('next/headers');
                 (await cookies()).delete('access_token');

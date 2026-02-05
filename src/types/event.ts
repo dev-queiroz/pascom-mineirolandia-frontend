@@ -11,9 +11,9 @@ export interface Slot {
 
 export interface Event {
     id: number;
-    month: string; // '01'..'12'
+    month: string;
     day: string;
-    time: string; // 'HH:mm'
+    time: string;
     description?: string | null;
     location?: string | null;
     createdAt: string;
