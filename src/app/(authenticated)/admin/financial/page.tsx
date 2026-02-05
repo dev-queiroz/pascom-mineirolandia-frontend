@@ -1,11 +1,12 @@
 'use client';
 
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useFinancial } from '@/hooks/useFinancial';
 import { useFinancialSummary } from '@/queries/financialQueries';
 import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { SummaryCards } from '@/components/common/SummaryCards';
+import { Label } from '@/components/ui/label';
 import { toast } from "sonner";
 import {
     Check,
@@ -17,7 +18,9 @@ import {
     AlertCircle,
     ArrowUpRight,
     Trash2,
-    Filter
+    Filter,
+    ArrowDownCircle,
+    Plus
 } from 'lucide-react';
 import {
     AlertDialog,
@@ -29,9 +32,16 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import Image from "next/image";
-import {useAuth} from "@/hooks/useAuth";
-import {useRouter} from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function AdminFinancialPage() {
     const { user: currentUser, isLoading: authLoading } = useAuth();
@@ -42,21 +52,24 @@ export default function AdminFinancialPage() {
         confirmContribution,
         isConfirming,
         deleteContribution,
-        isDeleting
+        isDeleting,
+        createExpense,
+        isCreatingExpense
     } = useFinancial();
 
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [idToDelete, setIdToDelete] = useState<number | null>(null);
-
+    const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
+    const [expenseForm, setExpenseForm] = useState({ value: '', date: new Date().toISOString().split('T')[0], note: '' });
     const currentMonthStr = new Date().toISOString().substring(0, 7);
     const [filterMonth, setFilterMonth] = useState(currentMonthStr);
 
-    const { data: summary, isLoading: isLoadingSummary } = useFinancialSummary(filterMonth);
+    const { data: summary, isLoading: isLoadingSummary, refetch: refetchSummary } = useFinancialSummary(filterMonth);
 
     useEffect(() => {
         if (!authLoading && (!currentUser || currentUser.funcao !== 'admin')) {
             toast.error("Acesso negado.");
-            router.back();
+            router.replace('/dashboard');
         }
     }, [currentUser, authLoading, router]);
 
@@ -64,6 +77,7 @@ export default function AdminFinancialPage() {
         try {
             await confirmContribution(id);
             toast.success('Contribuição confirmada!');
+            refetchSummary();
         } catch {
             toast.error('Erro ao confirmar contribuição.');
         }
@@ -74,10 +88,38 @@ export default function AdminFinancialPage() {
         try {
             await deleteContribution(idToDelete);
             toast.success('Registro removido com sucesso.');
+            refetchSummary();
         } catch {
             toast.error('Erro ao remover registro.');
         } finally {
             setIdToDelete(null);
+        }
+    };
+
+    const handleExpenseSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const payload = {
+                value: Number(expenseForm.value.replace(',', '.')),
+                date: expenseForm.date,
+                note: expenseForm.note,
+            };
+
+            await createExpense(payload);
+
+            toast.success('Saída registrada com sucesso!');
+
+            setExpenseForm({
+                value: '',
+                date: new Date().toISOString().split('T')[0],
+                note: ''
+            });
+            setIsExpenseDialogOpen(false);
+            refetchSummary();
+        } catch (error) {
+            console.error(error);
+            toast.error('Erro ao registrar saída. Verifique os dados.');
         }
     };
 
@@ -92,8 +134,8 @@ export default function AdminFinancialPage() {
     return (
         <div className="space-y-10 pb-24 px-4 sm:px-6 lg:px-0 max-w-[1400px] mx-auto animate-in fade-in">
 
-            {/* Header + Filtro */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            {/* Header + Filtro + Ações */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-black italic uppercase tracking-tight">
                         Gestão <span className="text-amber-500">Financeira</span>
@@ -103,17 +145,81 @@ export default function AdminFinancialPage() {
                     </p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 bg-white/5 border border-white/10 p-2 rounded-2xl w-full sm:w-auto">
-                    <div className="flex items-center gap-2 px-3 text-gray-400 border-r border-white/10">
-                        <Filter className="w-4 h-4" />
-                        <span className="text-xs font-bold uppercase">Período</span>
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                    {/* Botão Nova Saída */}
+                    <Dialog open={isExpenseDialogOpen} onOpenChange={setIsExpenseDialogOpen}>
+                        <DialogTrigger asChild>
+                            <Button className="w-full sm:w-auto bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl h-12 px-6 gap-2 transition-all active:scale-95 shadow-lg shadow-rose-900/20">
+                                <ArrowDownCircle className="w-5 h-5" />
+                                Registrar Saída
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="rounded-[2.5rem] bg-gray-900 border-white/10 text-white max-w-md">
+                            <DialogHeader>
+                                <DialogTitle className="text-2xl font-black italic uppercase text-rose-500 flex items-center gap-2">
+                                    <Plus /> Nova Despesa
+                                </DialogTitle>
+                            </DialogHeader>
+                            <form onSubmit={handleExpenseSubmit} className="space-y-6 pt-4">
+                                <div className="space-y-2">
+                                    <Label className="text-gray-400 ml-1">Valor da Saída</Label>
+                                    <div className="relative">
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-rose-500 font-bold">R$</span>
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            required
+                                            value={expenseForm.value}
+                                            onChange={e => setExpenseForm({...expenseForm, value: e.target.value})}
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                                            placeholder="0,00"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-gray-400 ml-1">Data do Pagamento</Label>
+                                    <input
+                                        type="date"
+                                        required
+                                        value={expenseForm.date}
+                                        onChange={e => setExpenseForm({...expenseForm, date: e.target.value})}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-gray-400 ml-1">Descrição / Motivo</Label>
+                                    <textarea
+                                        required
+                                        value={expenseForm.note}
+                                        onChange={e => setExpenseForm({...expenseForm, note: e.target.value})}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white min-h-[100px] focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                                        placeholder="Ex: Compra de materiais, manutenção..."
+                                    />
+                                </div>
+                                <Button
+                                    disabled={isCreatingExpense}
+                                    type="submit"
+                                    className="w-full h-14 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl text-lg shadow-lg shadow-rose-900/40"
+                                >
+                                    {isCreatingExpense ? <LoadingSpinner /> : 'Confirmar Saída'}
+                                </Button>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
+
+                    {/* Filtro de Período */}
+                    <div className="flex items-center gap-2 bg-white/5 border border-white/10 p-2 rounded-2xl w-full sm:w-auto h-12">
+                        <div className="flex items-center gap-2 px-3 text-gray-400 border-r border-white/10">
+                            <Filter className="w-4 h-4" />
+                            <span className="text-xs font-bold uppercase hidden sm:inline">Período</span>
+                        </div>
+                        <input
+                            type="month"
+                            value={filterMonth}
+                            onChange={(e) => setFilterMonth(e.target.value)}
+                            className="bg-transparent text-white font-bold outline-none px-2 py-1 cursor-pointer"
+                        />
                     </div>
-                    <input
-                        type="month"
-                        value={filterMonth}
-                        onChange={(e) => setFilterMonth(e.target.value)}
-                        className="w-full sm:w-auto bg-transparent text-white font-bold outline-none px-2 py-1"
-                    />
                 </div>
             </div>
 

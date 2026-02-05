@@ -1,5 +1,6 @@
 import { apiFetch } from '@/lib/api';
 import {Contribution, FinancialSummary, PendingContribution} from '@/types';
+import {ExpenseFormData} from "@/schemas/financialSchema";
 
 export const financialService = {
     async createContribution(data: FormData) {
@@ -28,5 +29,13 @@ export const financialService = {
         return apiFetch(`/financial/pendings/${id}`, {
             method: 'DELETE',
         });
-    }
+    },
+
+    async createExpense(data: ExpenseFormData) {
+        return apiFetch<Contribution>('/financial/expense', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+    },
 };

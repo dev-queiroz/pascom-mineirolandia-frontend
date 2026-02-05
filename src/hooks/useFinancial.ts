@@ -1,7 +1,7 @@
 'use client';
 
 import { usePendingContributions } from '@/queries/financialQueries';
-import { useCreateContribution, useConfirmContribution, useDeleteContribution } from '@/mutations/financialMutations';
+import { useCreateContribution, useConfirmContribution, useDeleteContribution, useCreateExpense } from '@/mutations/financialMutations';
 import { useQueryClient } from '@tanstack/react-query';
 import { dashboardKeys } from '@/queries/dashboardQueries';
 
@@ -11,6 +11,7 @@ export function useFinancial() {
     const createMutation = useCreateContribution();
     const confirmMutation = useConfirmContribution();
     const deleteMutation = useDeleteContribution();
+    const createExpenseMutation = useCreateExpense();
 
     return {
         pendings: pendingsQuery.data ?? [],
@@ -25,6 +26,9 @@ export function useFinancial() {
         deleteContribution: deleteMutation.mutateAsync,
         isDeleting: deleteMutation.isPending,
         deleteError: deleteMutation.error,
+        createExpense: createExpenseMutation.mutateAsync,
+        isCreatingExpense: createExpenseMutation.isPending,
+        createExpenseError: createExpenseMutation.error,
         refetchAll: async () => {
             await Promise.all([
                 pendingsQuery.refetch(),

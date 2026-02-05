@@ -32,4 +32,7 @@ export const contributionSchema = z.object({
         ),
 });
 
+export const expenseSchema = contributionSchema.omit({ comprovante: true });
+
 export type ContributionFormData = z.infer<typeof contributionSchema>;
+export type ExpenseFormData = z.infer<typeof expenseSchema>;
